@@ -1,0 +1,7 @@
+/.bin
+/build
+/vendor
+memory::
+composer.lock
+keys.php
+.anax
