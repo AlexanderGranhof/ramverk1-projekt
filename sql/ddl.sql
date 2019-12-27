@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id INT AUTO_INCREMENT,
     username VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) NOT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP,
     password varchar(64) NOT NULL,
 
@@ -39,22 +40,24 @@ CREATE TABLE post_votes (
 CREATE TABLE comments (
     id INT AUTO_INCREMENT,
     comment_text TEXT,
+    post_id INT NOT NULL,
+    FOREIGN KEY (post_id) REFERENCES posts(id),
     user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
     comment_reply_id INT,
     FOREIGN KEY (comment_reply_id) REFERENCES comments(id),
-    
+    created DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE comment_votes (
     id INT AUTO_INCREMENT,
-    score BIT NOT NULL,
+    score INT NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
-
     comment_id INT NOT NULL,
     FOREIGN KEY (comment_id) REFERENCES comments(id),
 
-    PRIMARY KEY (id)
+    UNIQUE INDEX `user_id:comment_id` (user_id, comment_id), 
+    PRIMARY KEY (id, user_id, comment_id)
 );
