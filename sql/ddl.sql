@@ -27,12 +27,14 @@ CREATE TABLE posts (
 
 CREATE TABLE post_votes (
     id INT AUTO_INCREMENT,
-    score BIT NOT NULL,
+    score INT NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
 
     post_id INT NOT NULL,
     FOREIGN KEY (post_id) REFERENCES posts(id),
+
+    UNIQUE INDEX `user_id:post_id` (user_id, post_id),
 
     PRIMARY KEY (id)
 );
