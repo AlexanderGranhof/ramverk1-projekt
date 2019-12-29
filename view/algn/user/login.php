@@ -38,13 +38,4 @@
         <input type="submit" value="Sign in">
     </form>
     <a href="./user/register">Click here to sign up</a>
-<?php else : ?>
-    <div class="user-details">
-        <img src="<?= $grav_url ?>" alt="">
-        <h1><?= $user["username"] ?></h1>
-    </div>
-    <form action="" method="POST">
-        <input type="hidden" name="signout" value="true">
-        <input type="submit" value="Sign out">
-    </form>
 <?php endif; ?>
