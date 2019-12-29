@@ -40,7 +40,9 @@
 ?>
 
 <div class="posts-container">
-    <a class="create-post" href="./posts/new">new post +</a>
+    <?php if ($userid): ?>
+        <a class="create-post" href="./posts/new">new post +</a>
+    <?php endif ?>
     
     <?php if ($error): ?>
         <h1>Failed to create post</h1>
