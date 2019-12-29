@@ -26,6 +26,21 @@ class UserController implements ContainerInjectableInterface
     
     public function indexAction(): object {
         $page = $this->di->get("page");
+        $session = $this->di->get("session");
+        $res = $this->di->get("response");
+
+        $uid = $session->get("userid");
+        
+        if ($uid) {
+            $user = new User();
+            $userData = $user->get($uid);
+
+            if ($userData) {
+                $username = $userData["username"];
+
+                return $res->redirect("user/$username");
+            }
+        }
 
         $page->add("algn/user/login");
 
@@ -37,8 +52,7 @@ class UserController implements ContainerInjectableInterface
         $res = $this->di->get("response");
         $page = $this->di->get("page");
         $session = $this->di->get("session");
-        $user = new User();
-        
+        $user = new User();        
 
         $body = $req->getPost();
 
@@ -97,7 +111,9 @@ class UserController implements ContainerInjectableInterface
         return $res->redirect("user");
     }
 
-    public function catchAll($route): object {
+    public function catchAll(...$args): object {
+        [$route] = $args;
+
         $page = $this->di->get("page");
         $session = $this->di->get("session");
         $userdb = new User();
@@ -106,10 +122,12 @@ class UserController implements ContainerInjectableInterface
 
         $user = $userdb->getFromName($route);
         $comments = $userdb->comments($userid);
+        $activity = $userdb->activity($user["id"]);
 
         $page->add("algn/user/profile", [
             "user" => $user,
-            "comments" => $comments
+            "comments" => $comments,
+            "activity" => $activity
         ]);
 
         return $page->render();
