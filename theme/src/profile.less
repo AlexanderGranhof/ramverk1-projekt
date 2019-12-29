@@ -4,3 +4,92 @@
     grid-template-columns: repeat(2, 1fr);
     justify-content: baseline;
 }
+
+body[class^=route-user-] {
+    .region-main {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.user-description {
+    display: grid;
+    margin: 0 20vw;
+
+    grid-template-columns: 80px 1fr;
+    column-gap: 20px;
+
+    .logged-in-as {
+        opacity: 0.8;
+        color: #333;
+    }
+
+    form {
+        margin: 10px 0;
+        input[type=submit] {
+            width: 100%;
+            font-size: 1em;
+            padding: 5px 0;
+            background-color: #f5222d;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    }
+}
+
+.activity {
+    margin: 0 10vw;
+    margin-top: 40px;
+
+    display: grid;
+    place-items: start center;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    column-gap: 5vw;
+}
+
+span.light {
+    font-size: 0.8em;
+    opacity: 0.8;
+    color: #333;
+}
+
+.comments {
+    width: 100%;
+
+    h3 {
+        margin-bottom: 10px;
+    }
+    
+    .comment-container {
+        margin: 20px 0;
+        padding: 10px 40px;
+        width: 100%;
+        background-color: #f2f2f2;
+    }
+
+    .post-wrapper {
+        margin: 20px 0;
+    }
+
+    .comment {
+        margin: 20px 0;
+        padding-left: 20px;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.user-post {
+    width: 100%;
+}
+
+.posts {
+    width: 100%;
+}
