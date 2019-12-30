@@ -90,10 +90,13 @@ class PostsController implements ContainerInjectableInterface
 
         $body = $req->getPost();
 
-        $id = $body["id"];
-        $content = $body["content"];
+        $id = $body["id"] ?? null;
+        $content = $body["content"] ?? null;
+        $replyID = $body["reply"] ?? null;
 
-        $result = $post->comment($id, $userid, $content);
+        $result = $post->comment($id, $userid, $content, $replyID);
+
+        // var_dump($result);
 
         return $result ? "true" : "false";
     }
@@ -161,7 +164,7 @@ class PostsController implements ContainerInjectableInterface
         $post = new Post();
         
         $uid = $session->get("userid");
-        var_dump($id, $uid, $score);
+        // var_dump($id, $uid, $score);
         $result = $post->postVote($id, $uid, $score);
 
 
