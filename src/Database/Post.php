@@ -105,13 +105,15 @@ class Post extends Database
 
     }
 
-    public function comment($postID, $userID, $text) {
+    public function comment($postID, $userID, $text, $reply=null) {
+        // var_dump($postID, $userID, $text, $reply);
         if (!$userID || !$postID) {
             return null;
         }
 
-        $stmt = $this->db->prepare("INSERT INTO comments (comment_text, user_id, post_id) VALUES (:text, :id, :postID)");
-        $stmt->execute(["text" => $text, "id" => $userID, "postID" => $postID]);
+        $stmt = $this->db->prepare("INSERT INTO comments (comment_text, user_id, post_id, comment_reply_id) VALUES (:text, :id, :postID, :reply)");
+        $stmt->execute(["text" => $text, "id" => $userID, "postID" => $postID, "reply" => $reply]);
+
 
         // CREATE TABLE comments (
         //     id INT AUTO_INCREMENT,
