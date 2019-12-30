@@ -2,6 +2,8 @@
     $parsedown = new Parsedown();
     $req = $this->di->get("request");
 
+    global $userCommentScores;
+
     $userCommentScores = [];
 
     foreach($userUpvoted as $row) {
@@ -38,7 +40,133 @@
         if (!$full) $string = array_slice($string, 0, 1);
         return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
+
+    function createSingleComment($comment, $isChild=false, $child="") {
+        global $userCommentScores;
+        // var_dump($comment);
+        // echo "<br><br>";
+        $parsedown = new Parsedown();
+
+        $score = $userCommentScores[$comment["id"]] ?? 0;
+
+        $id = $comment["id"];
+        $arrowUp = $score == 1 ? "selected" : "";
+        $arrowDown = $score == -1 ? "selected" : "";
+        $username = $comment["username"];
+        $created = time_elapsed_string($comment["created"]) ?? "";
+        $content = $parsedown->text($comment["comment_text"]);
+
+        $isChild = $isChild ? "child" : "";
+
+        return "<div class='comment $isChild'>" .
+            "<div class='vote' data-id='$id'>" .
+                "<span class='arrow-up $arrowUp'>▶</span>" .
+                "<span class='arrow-down $arrowDown'>▶</span>" .
+            "</div>" .
+            "<div>" .
+                "<a class='username' href='../user/$username'>$username | $score points | $created</a>" .
+                "<div class='comment-text'>$content</div>" .
+                "<div class='comment-extras'>" . 
+                    "<span data-id='$id' class='reply-button'>reply</span>" .
+                "</div>" . 
+            "</div>" .
+            $child .
+        "</div>";
+    }
+
+    // Nothing to see from here and the next 100 lines.
+    // Please have mercy on these lines if you read them.
+
+    $finished = [];
+
+    for($i = 0; $i < count($comments); $i++) {
+        if (!isset($comments[$i]["comment_reply_id"])) {
+            $finished[] = $comments[$i];
+            continue;
+        }
+
+        for($j = 0; $j < count($comments); $j++) {
+            if ($comments[$j]["id"] == $comments[$i]["comment_reply_id"]) {
+                $comments[$j]["child"][] = $comments[$i];
+            } else {
+                if (isset($comments[$j]["child"])) {
+                    $current = $comments[$j]["child"];
+    
+                    while ($current) {
+                        for($x = 0; $x < count($comments[$j]["child"]); $x++) {
+                            if ($comments[$j]["child"][$x]["id"] == $comments[$i]["comment_reply_id"]) {
+                                $comments[$j]["child"][$x]["child"][] = $comments[$i]; 
+                            }
+                        }
+
+                        if (!isset($current["child"])) {
+                            break;
+                        }
+    
+                        $current = $current["child"];
+                    }
+                }
+            }
+        }
+
+        for($j = 0; $j < count($finished); $j++) {
+            if ($finished[$j]["id"] == $comments[$i]["comment_reply_id"]) {
+                $finished[$j]["child"][] = $comments[$i];
+            } else {
+                if (isset($finished[$j]["child"])) {
+                    $current = $finished[$j]["child"];
+    
+                    while ($current) {
+                        for($x = 0; $x < count($finished[$j]["child"]); $x++) {
+                            if ($finished[$j]["child"][$x]["id"] == $comments[$i]["comment_reply_id"]) {
+                                $finished[$j]["child"][$x]["child"][] = $comments[$i]; 
+                            }
+                        }
+
+                        if (!isset($current["child"])) {
+                            break;
+                        }
+    
+                        $current = $current["child"];
+                    }
+                }
+            }
+        }
+    }
+
+
+    function makeComments($current, $isChild=false, $childHTML="") {
+
+        if (isset($current["child"])) {
+            foreach($current["child"] as $child) {
+                $childHTML .= makeComments($child, true);
+            }
+        }
+
+        return createSingleComment($current, $isChild, $childHTML);
+    }
+
+    $commentHTML = "";
+
+    foreach($finished as $comment) {
+        $commentHTML .= makeComments($comment);
+    }
+
+
 ?>
+
+<div class="reply-window hidden">
+    <div class="reply-container">
+        <div class="original">
+            <span class="light" id="original-username"></span>
+            <div id="original-content"></div>
+        </div>
+        <div class="reply-section">
+            <textarea id="reply-content"></textarea>
+            <button id="reply-button">Reply</button>
+        </div>
+    </div>
+</div>
 
 <div class="posts-container">
     <div class="post single">
@@ -74,26 +202,63 @@
             <input type="submit" value="Update">
         </form>
     
-        <?php foreach ($comments as $comment): ?>
-        <?php $score = $userCommentScores[$comment["id"]] ?? null ?>
-            <div class="comment">
-                <div class="vote" data-id="<?= $comment["id"] ?>">
-                    <span class="arrow-up <?= $score == 1 ? "selected" : "" ?>">▶</span>
-                    <span class="arrow-down <?= $score == -1 ? "selected" : "" ?>">▶</span>
-                </div>
-                <div>
-                    <a class="username" href="../user/<?= $comment["username"] ?>"><?= $comment["username"] ?> | <?= $comment["score"] ?? 0 ?> points | <?= time_elapsed_string($comment["created"]) ?? "" ?></a>
-                    <p class="comment-text"><?= $parsedown->text($comment["comment_text"]) ?></p>
-                    <div class="comment-extras">
-                        <span class="reply-button">reply</span>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
+        <?= $commentHTML ?>
     </div>
 </div>
 
 <script>
+
+    const replyButtons = document.querySelectorAll(".reply-button");
+
+    document.querySelector(".reply-window").addEventListener("click", ({target}) => target.classList.add("hidden"))
+
+    function handleReply() {
+        const replyID = parseInt(this.dataset.id);
+        const replyWindow = document.querySelector(".reply-window");
+        const container = this.parentElement.parentElement;
+        const replyUsername = document.getElementById("original-username");
+        const replyOriginalContent = document.getElementById("original-content");
+        const replyButton = document.getElementById("reply-button");
+
+        replyButton.dataset.id = replyID;
+
+        const textContainer = container.querySelector(".comment-text");
+        const usernameText = container.querySelector(".username").textContent;
+
+        replyUsername.textContent = usernameText;
+        replyOriginalContent.innerHTML = textContainer.innerHTML;
+
+        replyWindow.classList.remove("hidden");
+    }
+
+    for (const btn of replyButtons) {
+        btn.addEventListener("click", handleReply);
+    }
+
+    const replyButton = document.getElementById("reply-button");
+
+    async function sendReply() {
+        const commentText = document.getElementById("reply-content").value;
+        const replyCommentID = parseInt(this.dataset.id);
+        const postID = parseInt(window.location.href.split("/").pop());
+
+        const data = new FormData();
+
+        data.append("id", postID);
+        data.append("content", commentText);
+        data.append("reply", replyCommentID);
+
+
+        const response = await fetch("../posts/comment", {
+            method: "POST",
+            body: data
+        });       
+
+        console.log(await response.text());
+    }
+
+    replyButton.addEventListener("click", sendReply);
+    
     const commentField = document.getElementById("comment");
     const commentButton = document.getElementById("writeComment");
 
