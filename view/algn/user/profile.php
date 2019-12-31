@@ -56,6 +56,7 @@
                 <span class="logged-in-as">Logged in as:</span>
             <?php endif; ?>
             <h1 class="username"><?= $user["username"] ?></h1>
+            <span class="light">User score: <?= $score ?? 0 ?></span>
         </div>
         <?php if ($isOwnProfile): ?>
             <form action="." method="POST">
