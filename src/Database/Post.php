@@ -45,6 +45,22 @@ class Post extends Database
         return $stmt->fetchAll();
     }
 
+    public function setAnswer($cid, $uid) {
+        $stmt = $this->db->prepare("SELECT * FROM comments INNER JOIN posts ON comments.post_id = posts.id WHERE comments.id = :cid AND posts.user_id = :uid");
+        $stmt->execute(["cid" => $cid, "uid" => $uid]);
+
+        $result = $stmt->fetchAll();
+
+        if (count($result) <= 0) {
+            return null;
+        }
+
+        $stmt = $this->db->prepare("UPDATE comments SET answer = 1 WHERE id = :cid");
+        $stmt->execute(["cid" => $cid]);
+
+        return true;
+    }
+
     public function getComments($id, $sort=null) {
         switch ($sort) {
             case 'date':
@@ -103,6 +119,15 @@ class Post extends Database
             var_dump($e->getMessage());
         }
 
+    }
+
+    public function isOwner($uid, $pid) {
+        $stmt = $this->db->prepare("SELECT * FROM posts WHERE user_id = :uid AND id = :pid");
+        $stmt->execute(["uid" => $uid, "pid" => $pid]);
+
+        $result = $stmt->fetchAll();
+
+        return !!count($result);
     }
 
     public function comment($postID, $userID, $text, $reply=null) {

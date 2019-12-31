@@ -171,6 +171,24 @@ class PostsController implements ContainerInjectableInterface
         return $result ? "true" : "false";
     }
 
+    public function commentAnswerActionPost(): string {
+        $req = $this->di->get("request");
+        $session = $this->di->get("session");
+
+        $body = $req->getPost();
+
+        $cid = $body["cid"] ?? null;
+
+        $uid = $session->get("userid");
+
+        $post = new Post();
+
+
+        $post->setAnswer($cid, $uid);
+
+        return "true";
+    }
+
     public function catchAll($route) {
         $post = new Post();
         $res = $this->di->get("response");
@@ -202,13 +220,16 @@ class PostsController implements ContainerInjectableInterface
         $postScore = $post->postScore($uid, $id);
 
         $postScore = isset($postScore["score"]) ? $postScore["score"] : null;
+
+        $isOwnPost = $post->isOwner($uid, $id);
         
 
         $page->add("algn/posts/single", [
             "post" => $singlePost,
             "comments" => $comments,
             "userUpvoted" => $userUpvoted,
-            "postScore" => $postScore
+            "postScore" => $postScore,
+            "isOwnPost" => $isOwnPost
         ]);
 
         return $page->render();
