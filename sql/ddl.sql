@@ -49,6 +49,7 @@ CREATE TABLE comments (
     comment_reply_id INT,
     FOREIGN KEY (comment_reply_id) REFERENCES comments(id),
     created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    answer BIT DEFAULT 0,
     PRIMARY KEY (id)
 );
 
