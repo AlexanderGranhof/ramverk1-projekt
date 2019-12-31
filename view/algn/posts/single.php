@@ -2,12 +2,25 @@
     $parsedown = new Parsedown();
     $req = $this->di->get("request");
 
+    $temp = $isOwnPost;
+
     global $userCommentScores;
+    global $isOwnPost;
+    global $hasAnswer;
+
+    $isOwnPost = $temp;
 
     $userCommentScores = [];
 
     foreach($userUpvoted as $row) {
         $userCommentScores[$row["comment_id"]] = $row["score"];
+    }
+
+    foreach($comments as $comment) {
+        if ($comment["answer"] == 1) {
+            $hasAnswer = true;
+            break;
+        }
     }
     
     $sorted = $req->getGet("sort");
@@ -29,6 +42,7 @@
             'i' => 'minute',
             's' => 'second',
         );
+
         foreach ($string as $k => &$v) {
             if ($diff->$k) {
                 $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
@@ -43,6 +57,8 @@
 
     function createSingleComment($comment, $isChild=false, $child="") {
         global $userCommentScores;
+        global $isOwnPost;
+        global $hasAnswer;
         // var_dump($comment);
         // echo "<br><br>";
         $parsedown = new Parsedown();
@@ -55,19 +71,22 @@
         $username = $comment["username"];
         $created = time_elapsed_string($comment["created"]) ?? "";
         $content = $parsedown->text($comment["comment_text"]);
+        $answer = $comment["answer"];
 
         $isChild = $isChild ? "child" : "";
+        $answerClass = $answer ? "class='answer'" : "";
 
         return "<div class='comment $isChild'>" .
             "<div class='vote' data-id='$id'>" .
                 "<span class='arrow-up $arrowUp'>▶</span>" .
                 "<span class='arrow-down $arrowDown'>▶</span>" .
             "</div>" .
-            "<div>" .
+            "<div data-id='$id' $answerClass>" .
                 "<a class='username' href='../user/$username'>$username | $score points | $created</a>" .
                 "<div class='comment-text'>$content</div>" .
                 "<div class='comment-extras'>" . 
                     "<span data-id='$id' class='reply-button'>reply</span>" .
+                    ($isOwnPost && !$hasAnswer ? "<span class='mark-as-answer'>mark as answer</span>" : "") .
                 "</div>" . 
             "</div>" .
             $child .
@@ -207,6 +226,37 @@
 </div>
 
 <script>
+    const markAsAnswerButtons = document.querySelectorAll(".mark-as-answer");
+
+    async function handleMarkAsAnswer() {
+        const commentContainer = this.parentElement.parentElement;
+        const cid = parseInt(commentContainer.dataset.id);
+
+        const answer = confirm(`Are you sure you want to mark this comment as answer?`);
+
+        if (!answer) {
+            return;
+        }
+
+        const data = new FormData();
+
+        data.append("cid", cid);
+
+        await fetch("commentAnswer", {
+            method: "POST",
+            body: data
+        });
+
+        commentContainer.classList.add("answer");
+
+        for(const btn of markAsAnswerButtons) {
+            btn.remove();
+        }
+    }
+
+    for(const btn of markAsAnswerButtons) {
+        btn.addEventListener("click", handleMarkAsAnswer);
+    }
 
     const replyButtons = document.querySelectorAll(".reply-button");
 
@@ -254,7 +304,7 @@
             body: data
         });       
 
-        console.log(await response.text());
+        window.location.reload();
     }
 
     replyButton.addEventListener("click", sendReply);
