@@ -216,9 +216,6 @@ form#createPost input[type=submit] {
   padding: 10px 0;
   margin-left: 7px;
 }
-.comments-container .comments .comment:not(:last-child) {
-  margin-bottom: 60px;
-}
 .comments-container .comments .comment .username {
   font-size: 0.8em;
   opacity: 0.8;
@@ -329,6 +326,28 @@ div.vote .arrow-down {
   grid-column: 1 / span all;
   margin-bottom: 0 !important;
   border-left: 2px solid rgba(50, 50, 50, 0.5);
+}
+.comment-extras {
+  display: flex;
+}
+.comment-extras span {
+  margin: 0 5px;
+  font-size: 0.7em;
+  opacity: 0.5;
+  font-weight: bold;
+  transition: opacity 80ms ease;
+  color: #333;
+  cursor: pointer;
+}
+.comment-extras span:first-child {
+  margin-left: 0;
+}
+.comment-extras span:last-child {
+  margin-right: 0;
+}
+.comment div.answer {
+  color: #389e0d !important;
+  font-weight: bold;
 }
 .user-details {
   width: 200px;

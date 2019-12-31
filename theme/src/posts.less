@@ -162,10 +162,6 @@ form#createPost {
             padding: 10px 0;
             margin-left: 7px;
 
-            &:not(:last-child) {
-                margin-bottom: 60px;
-            }
-
             .username {
                 font-size: 0.8em;
                 opacity: 0.8;
@@ -297,4 +293,31 @@ div.vote {
     grid-column: 1 / span all;
     margin-bottom: 0 !important;
     border-left: 2px solid rgba(50, 50, 50, 0.5);
+}
+
+.comment-extras {
+    display: flex;
+
+    span {
+        margin: 0 5px;
+        font-size: 0.7em;
+        opacity: 0.5;
+        font-weight: bold;
+        transition: opacity 80ms ease;
+        color: #333;
+        cursor: pointer;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+.comment div.answer {
+    color: #389e0d !important;
+    font-weight: bold;
 }
