@@ -36,6 +36,13 @@ class User extends Database
         return ["comments" => $comments, "posts" => $posts];
     }
 
+    public function score($uid) {
+        $stmt = $this->db->prepare("SELECT (SELECT SUM(score) FROM comment_votes WHERE user_id = :uid) + (SELECT SUM(score) FROM post_votes WHERE user_id = :uid2) AS sum_score;");
+        $stmt->execute(["uid" => $uid, "uid2" => $uid]);
+
+        return intval($stmt->fetch()["sum_score"]);
+    }
+
     public function comments($id) {
         $stmt = $this->db->prepare("SELECT * FROM comments WHERE user_id = :id");
         $stmt->execute(["id" => $id]);
