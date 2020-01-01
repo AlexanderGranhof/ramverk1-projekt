@@ -84,7 +84,7 @@ class UserController implements ContainerInjectableInterface
         return $page->render();
     }
 
-    public function  registerActionPost(): boolval {
+    public function  registerActionPost(): object {
         $req = $this->di->get("request");
         $res = $this->di->get("response");
         $session = $this->di->get("session");

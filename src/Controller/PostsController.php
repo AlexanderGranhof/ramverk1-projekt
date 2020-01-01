@@ -83,7 +83,7 @@ class PostsController implements ContainerInjectableInterface
         return $page->render();
     }
 
-    public function newActionPost(): string {
+    public function newActionPost(): object {
         $req = $this->di->get("request");
         $res = $this->di->get("response");
         $session = $this->di->get("session");
