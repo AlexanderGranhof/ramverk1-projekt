@@ -29,9 +29,39 @@ class PostsController implements ContainerInjectableInterface
     
     public function indexAction(): object {
         $page = $this->di->get("page");
+        $req = $this->di->get("request");
         $post = new Post();
 
         $allPosts = $post->all();
+
+        $params = $req->getGet();
+
+        $tags = $params["tags"] ?? null;
+
+        if (!is_null($tags)) {
+            if (strlen(trim($tags)) >= 1) {
+                $tagsArr = explode(",", $tags);
+
+                
+                
+                for ($i = count($allPosts) - 1; $i >= 0; $i--) {
+                    $postTags = $allPosts[$i]["tags"] ?? "";
+                    $remove = true;
+                    
+                    foreach($tagsArr as $currTag) {
+                        if (strpos($postTags, $currTag) !== false) {
+                            $remove = false;
+                        }
+                    }
+
+                    if ($remove) {
+                        array_splice($allPosts, $i, 1);
+                    }
+                }
+
+            }
+        }
+
 
         $page->add("algn/posts/index", [
             "posts" => $allPosts
@@ -60,17 +90,46 @@ class PostsController implements ContainerInjectableInterface
 
         $body = $req->getPost();
 
+        
+        
         $title = $body["title"] ?? null;
         $content = $body["content"] ?? null;
+        $tags = $body["tags"] ?? null;
 
-        if (is_null($title) || is_null($content) || !$userid) {
-            $session->set("error_posts", true);
-            return $res->redirect("posts");
+        if (!is_null($tags)) {
+            $data = explode(",", $tags);
+    
+            for ($i = count($data) - 1; $i >= 0; $i--) {
+                if (!strlen($data[$i])) {
+                    array_splice($data, $i, 1);
+                } else {
+                    $data[$i] = strtolower(trim($data[$i]));
+                }
+
+                for ($j = count($data) - 1; $j >= 0; $j--) {
+                    if ($i !== $j && isset($data[$i]) && isset($data[$j])) {
+                        if ($data[$i] == $data[$j]) {
+                            array_splice($data, $j, 1);
+                        }
+                    }
+                }
+            }
+    
+            $tags = implode(",", $data);
+    
+            if (is_null($title) || is_null($content) || !$userid) {
+                $session->set("error_posts", true);
+                return $res->redirect("posts");
+            }
+        } else {
+            if (strlen(trim($tags)) <= 0) {
+                $tags = null;
+            }
         }
 
         $post = new Post();
 
-        $result = $post->create($userid, $title, $content);
+        $result = $post->create($userid, $title, $content, $tags);
         $id = $result["id"] ?? null;
 
         if (!$id) {
@@ -229,7 +288,8 @@ class PostsController implements ContainerInjectableInterface
             "comments" => $comments,
             "userUpvoted" => $userUpvoted,
             "postScore" => $postScore,
-            "isOwnPost" => $isOwnPost
+            "isOwnPost" => $isOwnPost,
+            "loggedIn" => $uid
         ]);
 
         return $page->render();
