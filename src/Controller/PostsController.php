@@ -283,6 +283,8 @@ class PostsController implements ContainerInjectableInterface
         $postScore = isset($postScore["score"]) ? $postScore["score"] : null;
 
         $isOwnPost = $post->isOwner($uid, $id);
+
+        $rank = $post->rank($singlePost["id"]);
         
 
         $page->add("algn/posts/single", [
@@ -291,7 +293,8 @@ class PostsController implements ContainerInjectableInterface
             "userUpvoted" => $userUpvoted,
             "postScore" => $postScore,
             "isOwnPost" => $isOwnPost,
-            "loggedIn" => $uid
+            "loggedIn" => $uid,
+            "postRank" => $rank
         ]);
 
         return $page->render();
