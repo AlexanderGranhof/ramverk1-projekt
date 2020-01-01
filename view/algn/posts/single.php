@@ -29,7 +29,7 @@
     
     $sorted = $req->getGet("sort");
 
-    function time_elapsed_string($datetime, $full = false) {
+    function time_elapsed_string_single($datetime, $full = false) {
         $now = new DateTime;
         $ago = new DateTime($datetime);
         $diff = $now->diff($ago);
@@ -74,7 +74,7 @@
         $arrowUp = $score == 1 ? "selected" : "";
         $arrowDown = $score == -1 ? "selected" : "";
         $username = $comment["username"];
-        $created = time_elapsed_string($comment["created"]) ?? "";
+        $created = time_elapsed_string_single($comment["created"]) ?? "";
         $content = $parsedown->text($comment["comment_text"]);
         $answer = $comment["answer"];
 
@@ -201,7 +201,7 @@
             <span class="arrow-down <?= $postScore == -1 ? "selected" : "" ?> <?= !$loggedIn ? "disabled" : "" ?>">▶</span>
         </div>
         <div>
-            <a href="../users/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string($post["created"]) ?> | <span class="post-rank rank-<?= $postRank ?>">Rank <?= $postRank ?></span></a>
+            <a href="../users/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_single($post["created"]) ?> | <span class="post-rank rank-<?= $postRank ?>">Rank <?= $postRank ?></span></a>
             <h1 class="title"><?= $post["title"] ?></h1>
             <div class="tags">
                 <?php foreach(explode(",", $post["tags"]) as $tag): ?>

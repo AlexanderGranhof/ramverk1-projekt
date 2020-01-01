@@ -12,7 +12,7 @@
 
     $parsedown = new Parsedown();
 
-    function time_elapsed_string($datetime, $full = false) {
+    function time_elapsed_string_index($datetime, $full = false) {
         $now = new DateTime;
         $ago = new DateTime($datetime);
         $diff = $now->diff($ago);
@@ -61,7 +61,7 @@
     </form>
         <?php foreach($posts as $post): ?>
             <div class="post">
-                <a href="user/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string($post["created"]) ?> </a>
+                <a href="user/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_index($post["created"]) ?> </a>
                 <a class="post-link" href="posts/<?= $post["id"] ?>">
                     <h1 class="title"><?= $post["title"] ?></h1>
                     <div class="preview-content">
