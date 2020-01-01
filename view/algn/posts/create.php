@@ -14,6 +14,10 @@
             <input required type="text" name="title" id="title">
         </div>
         <div class="input-container">
+            <label for="tags">Tags (comma seperated)</label>
+            <input type="text" name="tags" id="tags">
+        </div>
+        <div class="input-container">
             <label for="title">Content</label>
             <textarea required name="content" id="content" cols="30" rows="10" form="createPost"></textarea>
         </div>
