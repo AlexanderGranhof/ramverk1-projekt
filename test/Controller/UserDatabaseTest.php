@@ -12,7 +12,7 @@ use PDOException;
 /**
  * Test the SampleController.
  */
-class SampleControllerTest extends TestCase
+class UserDatabaseTest extends TestCase
 {
     public function __construct() {
         parent::__construct();
