@@ -5,3 +5,4 @@ memory::
 composer.lock
 keys.php
 .anax
+test/cache/*
