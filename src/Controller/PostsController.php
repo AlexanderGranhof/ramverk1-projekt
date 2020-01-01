@@ -49,8 +49,10 @@ class PostsController implements ContainerInjectableInterface
                     $remove = true;
                     
                     foreach($tagsArr as $currTag) {
-                        if (strpos($postTags, $currTag) !== false) {
-                            $remove = false;
+                        if (strlen($currTag) > 0) {
+                            if (strpos($postTags, $currTag) !== false) {
+                                $remove = false;
+                            }
                         }
                     }
 
