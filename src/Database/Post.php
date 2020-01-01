@@ -18,6 +18,13 @@ class Post extends Database
         return $stmt->fetchAll();
     }
 
+    public function rank($pid) {
+        $stmt = $this->db->prepare("SELECT COUNT(id) AS `rank` FROM (SELECT posts.id AS `id`, COALESCE(post_votes.score, 0) AS `score` FROM posts LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id ORDER BY score DESC, id ASC ) AS result WHERE id <= :pid");
+        $stmt->execute(["pid" => $pid]);
+
+        return $stmt->fetch()["rank"] ?? null;
+    }
+
     public function get($id) {
         $stmt = $this->db->prepare("SELECT posts.*, users.username, SUM(post_votes.score) AS `score` FROM posts INNER JOIN users ON posts.user_id = users.id LEFT OUTER JOIN post_votes on post_votes.post_id = posts.id WHERE posts.id = :id GROUP BY posts.id, post_votes.post_id");
         $stmt->execute(["id" => $id]);
