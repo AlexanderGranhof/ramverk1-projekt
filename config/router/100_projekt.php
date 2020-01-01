@@ -12,6 +12,10 @@ return [
         [
             "mount" => "user",
             "handler" => "\Algn\Controller\UserController"
+        ],
+        [
+            "mount" => "",
+            "handler" => "\Algn\Controller\HomeController"
         ]
     ]
 ];
