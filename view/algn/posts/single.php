@@ -219,6 +219,7 @@
 
 <div class="comments-container">
     <div class="write-comment-container">
+        <p class="comment-count"><?= count($comments) ?> <?= "comment" . (count($comments) > 1 ? "s" : "") ?></p>
         <textarea id="comment" placeholder="What are your thoughts?" name="comment"></textarea>
         <div class="extras">
             <button id="writeComment" class="commentButton">comment</button>
