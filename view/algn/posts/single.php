@@ -3,12 +3,16 @@
     $req = $this->di->get("request");
 
     $temp = $isOwnPost;
+    $temp2 = $loggedIn;
 
     global $userCommentScores;
     global $isOwnPost;
     global $hasAnswer;
+    global $loggedIn;
+
 
     $isOwnPost = $temp;
+    $loggedIn = $temp2;
 
     $userCommentScores = [];
 
@@ -59,6 +63,7 @@
         global $userCommentScores;
         global $isOwnPost;
         global $hasAnswer;
+        global $loggedIn;
         // var_dump($comment);
         // echo "<br><br>";
         $parsedown = new Parsedown();
@@ -76,10 +81,12 @@
         $isChild = $isChild ? "child" : "";
         $answerClass = $answer ? "class='answer'" : "";
 
+        $arrowsDisabled = !$loggedIn ? "disabled" : ""; 
+
         return "<div class='comment $isChild'>" .
             "<div class='vote' data-id='$id'>" .
-                "<span class='arrow-up $arrowUp'>▶</span>" .
-                "<span class='arrow-down $arrowDown'>▶</span>" .
+                "<span class='arrow-up $arrowUp $arrowsDisabled'>▶</span>" .
+                "<span class='arrow-down $arrowDown $arrowsDisabled'>▶</span>" .
             "</div>" .
             "<div data-id='$id' $answerClass>" .
                 "<a class='username' href='../user/$username'>$username | $score points | $created</a>" .
@@ -190,12 +197,19 @@
 <div class="posts-container">
     <div class="post single">
         <div class="vote" data-id="<?= $post["id"] ?>">
-            <span class="arrow-up <?= $postScore == 1 ? "selected" : "" ?>">▶</span>
-            <span class="arrow-down <?= $postScore == -1 ? "selected" : "" ?>">▶</span>
+            <span class="arrow-up <?= $postScore == 1 ? "selected" : "" ?> <?= !$loggedIn ? "disabled" : "" ?>">▶</span>
+            <span class="arrow-down <?= $postScore == -1 ? "selected" : "" ?> <?= !$loggedIn ? "disabled" : "" ?>">▶</span>
         </div>
         <div>
             <a href="../users/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string($post["created"]) ?></a>
             <h1 class="title"><?= $post["title"] ?></h1>
+            <div class="tags">
+                <?php foreach(explode(",", $post["tags"]) as $tag): ?>
+                <a class="tag-wrapper" href="../posts?tags=<?= $tag ?>">
+                    <span class="tag"><?= $tag ?></span>
+                </a>
+                <?php endforeach; ?>
+            </div>
             <div class="content">
                 <?= $parsedown->text($post["content"]) ?>
             </div>
@@ -347,7 +361,7 @@
 
     commentButton.addEventListener("click", writeComment);
 
-    const voteButtons = document.querySelectorAll(".comment .arrow-up, .comment .arrow-down");
+    const voteButtons = document.querySelectorAll(".comment .arrow-up:not(.disabled), .comment .arrow-down:not(.disabled)");
 
 
     for (const button of voteButtons) {
@@ -400,7 +414,7 @@
         }
     }
 
-    const postVotes = document.querySelectorAll(".post.single .arrow-up, .post.single .arrow-down");
+    const postVotes = document.querySelectorAll(".post.single .arrow-up:not(.disabled), .post.single .arrow-down:not(.disabled)");
 
     for (const btn of postVotes) {
         btn.addEventListener("click", handlePostVote);
