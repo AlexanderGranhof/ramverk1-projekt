@@ -194,7 +194,7 @@
             <span class="arrow-down <?= $postScore == -1 ? "selected" : "" ?>">▶</span>
         </div>
         <div>
-            <a href="../users/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?> points | <?= time_elapsed_string($post["created"]) ?></a>
+            <a href="../users/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string($post["created"]) ?></a>
             <h1 class="title"><?= $post["title"] ?></h1>
             <div class="content">
                 <?= $parsedown->text($post["content"]) ?>
