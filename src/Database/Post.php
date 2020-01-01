@@ -154,10 +154,10 @@ class Post extends Database
         return true;
     }
 
-    public function create($userID, $title, $content) {
+    public function create($userID, $title, $content, $tags) {
         try {
-            $stmt = $this->db->prepare("INSERT INTO posts (user_id, content, title) VALUES (:userID, :content, :title)");
-            $stmt->execute(["userID" => $userID, "content" => $content, "title" => $title]);
+            $stmt = $this->db->prepare("INSERT INTO posts (user_id, content, title, tags) VALUES (:userID, :content, :title, :tags)");
+            $stmt->execute(["userID" => $userID, "content" => $content, "title" => $title, "tags" => $tags]);
             
             $stmt = $this->db->prepare("SELECT * FROM posts WHERE user_id = :userID AND title = :title AND content = :content");
             $stmt->execute(["userID" => $userID, "content" => $content, "title" => $title]);
