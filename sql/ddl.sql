@@ -12,7 +12,7 @@ CREATE TABLE users (
     password varchar(64) NOT NULL,
 
     PRIMARY KEY (id)
-) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE posts (
     id INT AUTO_INCREMENT,
@@ -23,7 +23,7 @@ CREATE TABLE posts (
     FOREIGN KEY (user_id) REFERENCES users(id),
     tags TEXT,
     PRIMARY KEY (id)
-) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE post_votes (
     id INT AUTO_INCREMENT,
@@ -37,7 +37,7 @@ CREATE TABLE post_votes (
     UNIQUE INDEX `user_id:post_id` (user_id, post_id),
 
     PRIMARY KEY (id)
-) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE comments (
     id INT AUTO_INCREMENT,
@@ -51,7 +51,7 @@ CREATE TABLE comments (
     created DATETIME DEFAULT CURRENT_TIMESTAMP,
     answer BIT DEFAULT 0,
     PRIMARY KEY (id)
-) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE comment_votes (
     id INT AUTO_INCREMENT,
@@ -63,4 +63,4 @@ CREATE TABLE comment_votes (
 
     UNIQUE INDEX `user_id:comment_id` (user_id, comment_id), 
     PRIMARY KEY (id, user_id, comment_id)
-) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
