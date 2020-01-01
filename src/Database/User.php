@@ -110,4 +110,9 @@ class User extends Database
             "verified" => false
         ];
     }
+
+    public function delete($id) {
+        $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
+        $stmt->execute(["id" => $id]);
+    }
 }
