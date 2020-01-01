@@ -11,6 +11,7 @@ div.post {
     background-color: rgb(235, 235, 235);
     margin: 20px 0;
     padding: 20px 60px;
+    position: relative;
 
     &.single {
         padding: 20px 40px;
@@ -27,6 +28,28 @@ div.post {
 
         .post-score {
             place-self: center baseline;
+        }
+
+        .tags {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 20px;
+
+            &::before {
+                content: "Tags: ";
+            }
+
+            .tag {
+                background-color: rgb(75, 75, 100);
+                color: white;
+                margin: 0 2px;
+                padding: 3px 10px;
+                width: 100%;
+                font-weight: bold;
+                text-transform: uppercase;
+                font-size: 0.8em;
+            }
         }
     }
     
