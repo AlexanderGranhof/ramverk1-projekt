@@ -1,11 +1,14 @@
 <?php
 
     $session = $di->get("session");
+    $req = $di->get("request");
 
     // $posts
 
     $userid = $session->get("userid");
     $error = $session->getOnce("error_posts");
+
+    $tags = $req->getGet("tags") ?? "";
 
     $parsedown = new Parsedown();
 
@@ -51,6 +54,11 @@
     <?php if (count($posts) <= 0): ?>
         <h1 class="no-posts">No posts around here ¯\_(ツ)_/¯</h1>
     <?php else: ?>
+    <form action="posts">
+        <label style="display: block" for="tags">Tags:</label>
+        <input type="text" name="tags" id="tags" value="<?= $tags ?>">
+        <input type="submit" value="Filter">
+    </form>
         <?php foreach($posts as $post): ?>
             <div class="post">
                 <a href="user/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string($post["created"]) ?> </a>
