@@ -201,7 +201,7 @@
             <span class="arrow-down <?= $postScore == -1 ? "selected" : "" ?> <?= !$loggedIn ? "disabled" : "" ?>">▶</span>
         </div>
         <div>
-            <a href="../users/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_single($post["created"]) ?> | <span class="post-rank rank-<?= $postRank ?>">Rank <?= $postRank ?></span></a>
+            <a href="../user/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_single($post["created"]) ?> | <span class="post-rank rank-<?= $postRank ?>">Rank <?= $postRank ?></span></a>
             <h1 class="title"><?= $post["title"] ?></h1>
             <div class="tags">
                 <?php foreach(explode(",", $post["tags"]) as $tag): ?>
