@@ -436,7 +436,7 @@ body[class^=route-user-] .region-main {
   grid-template-columns: repeat(2, 1fr);
   column-gap: 5vw;
 }
-span.light {
+.light {
   font-size: 0.8em;
   opacity: 0.8;
   color: #333;
@@ -469,4 +469,83 @@ a {
 }
 .posts {
   width: 100%;
+}
+body[class^=route-] main {
+  margin: 0 10vw;
+}
+.popular {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 100px;
+  column-gap: 20px;
+}
+.popular > div > div {
+  overflow: overlay;
+  max-height: 375px;
+}
+.popular > div > h1 {
+  margin-bottom: 30px;
+}
+.popular h1 {
+  text-align: center;
+}
+.popular .popular-tags {
+  grid-column: 1 / span all;
+}
+.popular .popular-tags .tags {
+  display: grid;
+  grid-template-rows: 75px 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+  column-gap: 5px;
+}
+.popular .popular-tags .single-tag {
+  background-color: #4b4b64;
+  color: white;
+  margin: 0 2px;
+  padding: 3px 10px;
+  width: fit-content;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  place-self: center;
+}
+.popular .comment {
+  background-color: #f2f2f2;
+  padding: 10px 20px;
+  margin: 10px 0;
+}
+.popular .comment:first-child {
+  margin-top: 0;
+}
+.popular .comment:last-child {
+  margin-bottom: 0;
+}
+.popular .comment .comment-text {
+  margin: 5px 0;
+}
+.popular .post h1 {
+  text-align: unset;
+}
+.popular .post .content * {
+  display: inline;
+}
+.popular .post img {
+  display: none;
+}
+.user-container {
+  margin: 20px 5px;
+  display: block;
+}
+.user-container:first-child {
+  margin-top: 0;
+}
+.user-container .username {
+  text-align: left;
+  margin-top: 5px;
+}
+.user-container:last-child {
+  margin-bottom: 0;
+}
+.light.large {
+  font-size: 1em;
 }

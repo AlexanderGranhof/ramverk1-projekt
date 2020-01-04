@@ -1,0 +1,105 @@
+body[class^=route-] {
+    main {
+        margin: 0 10vw
+    }
+}
+
+.popular {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 100px;
+    column-gap: 20px;
+
+    & > div {
+
+        & > div {
+            overflow: overlay;
+            max-height: 375px;
+        }
+
+        & > h1 {
+            margin-bottom: 30px;
+        }
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .popular-tags {
+        grid-column: 1 / span all;
+
+        .tags {
+            display: grid;
+            grid-template-rows: 75px 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+            column-gap: 5px;
+        }
+    
+        .single-tag {
+            background-color: rgb(75, 75, 100);
+            color: white;
+            margin: 0 2px;
+            padding: 3px 10px;
+            width: fit-content;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            place-self: center;
+        }
+    }
+
+    .comment {
+        background-color: #f2f2f2;
+        padding: 10px 20px;
+        margin: 10px 0;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        .comment-text {
+            margin: 5px 0;
+        }
+    }
+
+    .post {
+        h1 {
+            text-align: unset;
+        }
+    
+        .content * {
+            display: inline
+        }
+    
+        img {
+            display: none;
+        }
+    }
+}
+
+.user-container {
+    margin: 20px 5px;
+    display: block;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    .username {
+        text-align: left;
+        margin-top: 5px;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.light.large {
+    font-size: 1em;
+}
