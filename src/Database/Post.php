@@ -38,6 +38,13 @@ class Post extends Database
         return $stmt->fetch();
     }
 
+    public function top() {
+        $stmt = $this->db->prepare("SELECT posts.*, users.username, post_votes.score FROM posts INNER JOIN post_votes ON post_votes.post_id = posts.id INNER JOIN users ON users.id = posts.user_id ORDER BY score DESC");
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
     public function postScore($uid, $pid) {
         $stmt = $this->db->prepare("SELECT score FROM post_votes WHERE user_id = :uid AND post_id = :pid");
         $stmt->execute(["uid" => $uid, "pid" => $pid]);
@@ -48,6 +55,36 @@ class Post extends Database
     public function userUpvotedComments($uid, $pid) {
         $stmt = $this->db->prepare("SELECT comment_votes.comment_id, comment_votes.score FROM comment_votes INNER JOIN comments WHERE comment_votes.user_id = :uid AND comment_votes.score != 0 AND comments.post_id = :pid");
         $stmt->execute(["uid" => $uid, "pid" => $pid]);
+
+        return $stmt->fetchAll();
+    }
+
+    public function popularTags() {
+        $stmt = $this->db->prepare("SELECT posts.tags, SUM(COALESCE(post_votes.score, 0)) AS `score` FROM posts LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id GROUP BY tags");
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+        $data = [];
+
+        foreach($result as $row) {
+            foreach(explode(",", $row["tags"]) as $tag) {
+                if (isset($data[$tag])) {
+                    $data[$tag] += $row["score"];
+                } else {
+                    $data[$tag] = $row["score"];
+                }
+            }
+        }
+
+        arsort($data);
+
+        return $data;
+    }
+
+    public function topComments() {
+        $stmt = $this->db->prepare("SELECT comments.post_id, comments.comment_text, COALESCE(comment_votes.score, 0) AS `score`, users.username, comments.created FROM comments LEFT OUTER JOIN comment_votes ON comment_votes.comment_id = comments.id INNER JOIN users ON users.id = comments.user_id ORDER BY score DESC");
+        $stmt->execute();
 
         return $stmt->fetchAll();
     }
