@@ -12,7 +12,7 @@
         <whitelist processUncoveredFilesFromWhitelist="true">
             <!-- <directory suffix=".php">src</directory> -->
             <directory>src/Controller</directory>
-            <directory>src/Database</directory>
+            <!-- <directory>src/Database</directory> -->
         </whitelist>
     </filter>
 
