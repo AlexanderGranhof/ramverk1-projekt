@@ -10,9 +10,7 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <!-- <directory suffix=".php">src</directory> -->
             <directory>src/NoDB</directory>
-            <!-- <directory>src/Database</directory> -->
         </whitelist>
     </filter>
 
