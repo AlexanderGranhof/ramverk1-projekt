@@ -11,7 +11,7 @@ build:
                         command: phpcs-run
                         use_website_config: true
                     - js-scrutinizer-run
-            enviroment:
+            environment:
               php:
                 version: 7.2
         tests: true
