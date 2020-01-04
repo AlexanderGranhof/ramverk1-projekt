@@ -4,15 +4,9 @@
 
     <testsuites>
         <testsuite name="all">
-            <directory>test</directory>
+            <directory>test/NoDB</directory>
         </testsuite>
     </testsuites>
-
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory>src/NoDB</directory>
-        </whitelist>
-    </filter>
 
     <logging>
         <log type="coverage-html" target="build/coverage" lowUpperBound="35" highLowerBound="70" />
