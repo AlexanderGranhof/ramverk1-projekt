@@ -15,6 +15,13 @@ class User extends Database
         parent::__construct();
     }
 
+    public function all() {
+        $stmt = $this->db->prepare("SELECT id, username, created FROM users");
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
     public function get($id) {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(["id" => $id]);
