@@ -1,13 +1,44 @@
-body[class^=route-] {
+body[class=route-] {
+    
+    &::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        background-image: url(../img/home-fruit.png);
+        background-repeat: no-repeat;
+        background-size: 50%;
+        background-position-y: -100px;
+    }
+
+    .site-logo {
+        display: none;
+    }
+
+    div.outer-wrap-main, &::before {
+        opacity: 0;
+    }
+
+    div.outer-wrap-main, &::before {
+        animation: fade-in 1s forwards ease-out;
+    }
+
+
     main.region-main {
         margin: 0 !important;
         padding: 0 !important;
     }
 
+
     div.container {
         width: 100%;
         display: grid;
         grid-template-columns: 1fr 1fr;
+        min-height: calc(100vh - 100px);
 
         & > div {
             position: relative;
@@ -51,6 +82,15 @@ body[class^=route-] {
             font-size: 1.5em;
             font-weight: 700;
             text-transform: uppercase;
+        }
+
+        span.footer {
+            position: absolute;
+            bottom: 0;
+            left: 23.5%;
+            margin: 10px 0;
+            color: #A6A6A6;
+            font-weight: 500;
         }
     }
 
