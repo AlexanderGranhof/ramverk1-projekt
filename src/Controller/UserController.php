@@ -62,7 +62,7 @@ class UserController implements ContainerInjectableInterface
 
         if ($signout) {
             $session->delete("userid");
-            return $res->redirect("user");
+            return $res->redirect("profile");
         }
 
         $data = $user->verify($username, $password);
@@ -73,13 +73,13 @@ class UserController implements ContainerInjectableInterface
             $session->set("userid", $data["id"]);
         }
 
-        return $res->redirect("user");
+        return $res->redirect("profile");
     }
 
     public function registerAction(): object {
         $page = $this->di->get("page");
 
-        $page->add("algn/user/register");
+        $page->add("algn/profile/register");
 
         return $page->render();
     }
@@ -99,7 +99,7 @@ class UserController implements ContainerInjectableInterface
 
         if (!$username || !$password || !$email) {
             $session->set("error_register", true);
-            return $res->redirect("user/register");
+            return $res->redirect("profile/register");
         }
 
         $result = $user->register($username, $password, $email);
@@ -125,7 +125,7 @@ class UserController implements ContainerInjectableInterface
         $activity = $userdb->activity($user["id"]);
         $score = $userdb->score($userid);
 
-        $page->add("algn/user/profile", [
+        $page->add("algn/profile/profile", [
             "user" => $user,
             "comments" => $comments,
             "activity" => $activity,
