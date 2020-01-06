@@ -26,34 +26,10 @@ class HomeController implements ContainerInjectableInterface
     use ContainerInjectableTrait;
     
     
-    
     public function indexAction(): object {
         $page = $this->di->get("page");
 
-        $post = new Post();
-        $user = new User();
-
-
-        $tags = $post->popularTags();
-        $comments = $post->topComments();
-        $posts = $post->top();
-
-        $users = $user->all();;
-
-        foreach($users as &$row) {
-            $row["score"] = $user->score($row["id"]);
-        }
-
-        usort($users, function($a, $b) {
-            return $b['score'] - $a['score'];
-        });
-
-        $page->add("algn/home/index", [
-            "tags" => $tags,
-            "comments" => $comments,
-            "users" => $users,
-            "posts" => $posts
-        ]);
+        $page->add("algn/home/index");
 
         return $page->render();
     }
