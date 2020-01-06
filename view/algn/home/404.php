@@ -1,0 +1,1 @@
+<h1 class="no-posts">404 Nothing around here ¯\_(ツ)_/¯ </h1>
