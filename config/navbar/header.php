@@ -38,8 +38,8 @@ return [
         ],
         [
             "text" => "Profile",
-            "url" => "user",
-            "class" => $last == "user" ? "active" : null,
+            "url" => "profile",
+            "class" => $last == "profile" ? "active" : null,
             "title" => ""
         ]
     ]
