@@ -14,8 +14,12 @@ return [
             "handler" => "\Algn\Controller\UserController"
         ],
         [
+            "mount" => "popular",
+            "handler" => "\Algn\Controller\PopularController"
+        ],
+        [
             "mount" => "",
-            "handler" => "\Algn\Controller\HomeController"
-        ]
+            "handler" => "\Algn\Controller\HomeController",
+        ],
     ]
 ];
