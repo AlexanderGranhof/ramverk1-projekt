@@ -1,105 +1,60 @@
 body[class^=route-] {
-    main {
-        margin: 0 10vw
+    main.region-main {
+        margin: 0 !important;
+        padding: 0 !important;
     }
-}
 
-.popular {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 100px;
-    column-gap: 20px;
-
-    & > div {
+    div.container {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
 
         & > div {
-            overflow: overlay;
-            max-height: 375px;
+            position: relative;
         }
 
-        & > h1 {
-            margin-bottom: 30px;
-        }
-    }
-
-    h1 {
-        text-align: center;
-    }
-
-    .popular-tags {
-        grid-column: 1 / span all;
-
-        .tags {
-            display: grid;
-            grid-template-rows: 75px 1fr;
-            grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
-            column-gap: 5px;
-        }
-    
-        .single-tag {
-            background-color: rgb(75, 75, 100);
-            color: white;
-            margin: 0 2px;
-            padding: 3px 10px;
-            width: fit-content;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 0.8em;
-            place-self: center;
-        }
-    }
-
-    .comment {
-        background-color: #f2f2f2;
-        padding: 10px 20px;
-        margin: 10px 0;
-
-        &:first-child {
-            margin-top: 0;
-        }
-
-        &:last-child {
-            margin-bottom: 0;
-        }
-
-        .comment-text {
-            margin: 5px 0;
-        }
-    }
-
-    .post {
-        h1 {
-            text-align: unset;
-        }
-    
-        .content * {
-            display: inline
-        }
-    
         img {
-            display: none;
+            user-select: none;
+            height: 100vh;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .title-container {
+            position: absolute;
+            top: 30%;
+
+            .title {
+                font-size: 8em;
+
+                span:nth-child(1) {
+                    color: #A0D911;
+                }
+            }
+
+            .slogan {
+                width: 100%;
+                text-align: center;
+                font-size: 2em;
+                font-weight: 500;
+                color: #A6A6A6;
+            }
+        }
+
+        div.call-to-action {
+            color: white;
+            position: absolute;
+            bottom: 30%;
+            left: 20%;
+            padding: 15px 20px;
+            background-color: #2AB292;
+            font-size: 1.5em;
+            font-weight: 700;
+            text-transform: uppercase;
         }
     }
-}
 
-.user-container {
-    margin: 20px 5px;
-    display: block;
-
-    &:first-child {
-        margin-top: 0;
+    .outer-wrap-footer {
+        display: none;
     }
-
-    .username {
-        text-align: left;
-        margin-top: 5px;
-    }
-
-    &:last-child {
-        margin-bottom: 0;
-    }
-}
-
-.light.large {
-    font-size: 1em;
 }

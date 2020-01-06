@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap');
 
 
 * {
@@ -29,45 +30,45 @@ body {
 
     div[class^=region-header-col-] {
         
-        .my-navbar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            margin-bottom: 20px;
+        // .my-navbar {
+        //     display: grid;
+        //     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        //     margin-bottom: 20px;
 
-            &, ul {
-                list-style-type: none;
-                padding: 0;
-            }
+        //     &, ul {
+        //         list-style-type: none;
+        //         padding: 0;
+        //     }
 
-            a {
-                color: #515151;
-                text-decoration: none;
-                font-weight: bold;
-                font-size: 1.5em;
-                text-transform: uppercase;
-                letter-spacing: 1.25px;
-            }
+        //     a {
+        //         color: #515151;
+        //         text-decoration: none;
+        //         font-weight: bold;
+        //         font-size: 1.5em;
+        //         text-transform: uppercase;
+        //         letter-spacing: 1.25px;
+        //     }
 
-            li {
-                position: relative;
-                // place-self: center center;
-                display: block;
-                margin: 20px auto 0 auto;
-                padding: 20px;
+        //     li {
+        //         position: relative;
+        //         // place-self: center center;
+        //         display: block;
+        //         margin: 20px auto 0 auto;
+        //         padding: 20px;
 
-                &:hover ul {
-                    visibility: visible;
-                }
+        //         &:hover ul {
+        //             visibility: visible;
+        //         }
 
-                ul {
-                    visibility: hidden;
+        //         ul {
+        //             visibility: hidden;
 
-                    li {
-                        padding: 0;
-                    }
-                }
-            }
-        }
+        //             li {
+        //                 padding: 0;
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
 
@@ -104,6 +105,8 @@ form {
     }
 }
 
+@import "./home.less";
 @import "./posts.less";
 @import "./profile.less";
-@import "./home.less";
+@import "./popular.less";
+@import "./navbar.less";
