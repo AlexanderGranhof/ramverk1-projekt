@@ -57,4 +57,12 @@ class HomeController implements ContainerInjectableInterface
 
         return $page->render();
     }
+
+    public function catchAll(...$args) {
+        $page = $this->di->get("page");
+
+        $page->add("algn/home/404");
+
+        return $page->render();
+    }
 }
