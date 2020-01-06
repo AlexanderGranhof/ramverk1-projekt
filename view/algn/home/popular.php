@@ -1,13 +1,8 @@
-<?php 
-    $tags = $tags ? $tags : [];
-    $comments = $comments ? $comments : [];
-    $users = $users ? $users : [];
-    $posts = $posts ? $posts : [];
-
-    $slicedTags = array_slice($tags, 0, 10);
-    $slicedComments = array_slice($comments, 0, 10);
-    $slicedUsers = array_slice($users, 0, 10);
-    $slicedPosts = array_slice($posts, 0, 10);
+<?php
+    $uid = $user["id"];
+    $email = $user["email"];
+    $size = 40;
+    $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "&s=" . $size;
 
     $parsedown = new Parsedown();
 
@@ -40,56 +35,48 @@
         if (!$full) $string = array_slice($string, 0, 1);
         return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
+
+    $postTags = explode(",", $post["tags"])
 ?>
 
-<div class="popular">
-    <div>
-        <h1>Most popular posts</h1>
-        <div>
-            <?php foreach($slicedPosts as $post): ?>
-            <div class="post">
-                <a href="user/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_home($post["created"]) ?></a>
-                <a href="posts/<?= $post["id"] ?>">
-                    <h1 class="title"><?= $post["title"] ?></h1>
-                    <div class="content">
-                        <?= $parsedown->text($post["content"]) ?>
-                    </div>
-                </a>
-            </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-    <div>
-        <h1>Most active users</h1>
-        <div>
-            <?php foreach($slicedUsers as $row): ?>
-                <a class="user-container" href="user/<?= $row["username"] ?>">
-                <div class="user">
-                    <span class="light large">Joined <?= time_elapsed_string_home($row["created"]) ?> | <?= $row["score"] ?? 0 ?> points</span>
-                    <h2 class="username"><?= $row["username"] ?></h2>
+<div class="popular-list">
+    <div style="width: 100%">
+        <h1 class="most-popular-title">Most popular post</h1>
+        <div class="post">
+            <a href="profile/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_home($post["created"]) ?></a>
+            <a href="posts/<?= $post["id"] ?>">
+                <h1 class="title"><?= $post["title"] ?></h1>
+                <div class="tags">
+                    <?php foreach($postTags as $tag): ?>
+                    <a class="tag-wrapper" href="posts?tags=<?= $tag ?>">
+                        <span class="tag"><?= $tag ?></span>
+                    </a>
+                    <?php endforeach; ?>
                 </div>
-                </a>
-            <?php endforeach; ?>
+                <div class="content">
+                    <?= $parsedown->text($post["content"]) ?>
+                </div>
+            </a>
         </div>
     </div>
-    <div>
-        <h1>Top comments</h1>
+    <div class="user-tag-container">
         <div>
-            <?php foreach($slicedComments as $row): ?>
-            <div class='comment'>
-                <div data-id='<?= $row["post_id"] ?>' $answerClass>
-                    <a class='light' href='user/<?= $row["username"] ?>'><?= $row["username"] ?> | <?= $row["score"] ?? 0 ?> points | <?= time_elapsed_string_home($row["created"]) ?></a>
-                    <div class='comment-text'><?= $row["comment_text"] ?></div>
+            <h1 class="most-popular-title">Most popular User</h1>
+            <div class="user-description">
+                <img src="<?= $grav_url ?>" alt="">
+                <div class="username-container">
+                    <h1 class="username"><?= $user["username"] ?></h1>
+                    <span class="light">User score: <?= $score ?? 0 ?></span>
                 </div>
             </div>
-            <?php endforeach; ?>
         </div>
-    </div>
-    <div class="popular-tags">
-        <h1>Most popular tags</h1>
-        <div class="tags">
-            <?php foreach($slicedTags as $tag => $score): ?>
-                <a href="posts?tags=<?= $tag ?>" class="single-tag"><?= $tag ?? "?" ?>: <?= $score ?? "" ?></a>
+        <div>
+            <h1 class="most-popular-title" style="text-align: center">Most popular tag</h1>
+            <?php foreach($tags as $tag => $tagScore): ?>
+                <a href="posts?tags=<?= $tag ?>">
+                    <span style="display: grid; place-self: center; width: fit-content; margin: 0 auto" class="tag large"><?= $tag ?>: <?= $tagScore ?></span>
+                </a>
+                <?php break; ?>
             <?php endforeach; ?>
         </div>
     </div>
