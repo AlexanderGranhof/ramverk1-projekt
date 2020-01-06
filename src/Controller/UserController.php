@@ -38,11 +38,11 @@ class UserController implements ContainerInjectableInterface
             if ($userData) {
                 $username = $userData["username"];
 
-                return $res->redirect("user/$username");
+                return $res->redirect("profile/$username");
             }
         }
 
-        $page->add("algn/user/login");
+        $page->add("algn/profile/login");
 
         return $page->render();
     }
