@@ -62,6 +62,8 @@ $route = "route-" . str_replace("/", "-", $di->get("request")->getRoute());
     <meta charset="<?= $charset ?>">
     <title><?= $title ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap" rel="stylesheet">
 
     <?php if (isset($favicon)) : ?>
     <link rel="icon" href="<?= asset($favicon) ?>">
@@ -80,6 +82,8 @@ $route = "route-" . str_replace("/", "-", $di->get("request")->getRoute());
 </head>
 
 <body <?= classList($bodyClass, $route) ?>>
+
+<span class="site-logo"><span>Food</span>Flow</span>
 
 <!-- wrapper around all items on page -->
 <div class="wrap-all">
