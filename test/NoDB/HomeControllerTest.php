@@ -13,12 +13,6 @@ use Algn\Database\Post;
  */
 class HomeControllerClassNoDB extends TestCase
 {
-     public function __construct() {
-         parent::__construct();
-
-         $this->user = new User();
-         $this->post = new Post();
-     }
     /**
      * Test the route "index".
      */
