@@ -25,17 +25,19 @@
 <h4>Username or password is incorrect</h4>
 <?php endif; ?>
 <?php if (!$userid): ?>
-    <h1>Login</h1>
-    <form action="" method="POST">
-        <div class="input-container">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username">
-        </div>
-        <div class="input-container">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password">
-        </div>
-        <input type="submit" value="Sign in">
-    </form>
-    <a href="./user/register">Click here to sign up</a>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form action="" method="POST">
+            <div class="input-container">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username">
+            </div>
+            <div class="input-container">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <input type="submit" value="Sign in">
+        </form>
+        <a class="sign-up" href="profile/register">Click here to sign up</a>
+    </div>
 <?php endif; ?>
