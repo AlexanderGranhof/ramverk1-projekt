@@ -1,3 +1,80 @@
+body[class^=route-posts] {
+    &::before {
+        content: "";
+        position: fixed;
+        top: 100px;
+        left: 0;
+        z-index: -1;
+        display: block;
+        width: 100vw;
+        height: calc(100vh - 100px);
+        background-image: url(../img/cutting-board-no-knife.jpg);
+        background-repeat: no-repeat;
+        background-size: 100%;
+        // background-position-y: 100px;
+        filter: blur(2px);
+    }
+
+    div.outer-wrap-main, &::before {
+        opacity: 0;
+    }
+
+    div.outer-wrap-main, &::before {
+        animation: fade-in 1s forwards ease-out;
+    }
+
+    .tags {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 40px;
+    }
+
+    .tag-wrapper {
+        margin: 0 3px;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    .tag {
+        padding: 3px 5px;
+        font-size: 0.8em;
+        color: white;
+        background-color: #2AC9BF;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .create-filter-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        place-items: center;
+
+        & > div:first-child {
+            place-self: center start;
+        }
+
+        form {
+            place-self: center end;
+            width: unset;
+            margin: unset;
+
+            .input-container {
+                width: unset;
+                margin-bottom: unset;
+                margin: unset;
+            }
+
+        }
+    }
+}
+
 .route-posts-new {
     .input-container {
         label {
@@ -8,13 +85,25 @@
 }
 
 div.post {
-    background-color: rgb(235, 235, 235);
+    background-color: white;
     margin: 20px 0;
-    padding: 20px 60px;
+    padding: 40px;
     position: relative;
 
+    .username {
+        color: rgb(155, 155, 155);
+    }
+
+    .title {
+        font-weight: 500;
+    }
+
+    .content {
+        color: rgb(134, 134, 134);
+    }
+
     &.single {
-        padding: 20px 40px;
+        // padding: 20px 40px;
         display: grid;
         grid-template-columns: 40px 1fr;
         
@@ -28,28 +117,6 @@ div.post {
 
         .post-score {
             place-self: center baseline;
-        }
-
-        .tags {
-            position: absolute;
-            top: 0;
-            right: 0;
-            margin: 20px;
-
-            &::before {
-                content: "Tags: ";
-            }
-
-            .tag {
-                background-color: rgb(75, 75, 100);
-                color: white;
-                margin: 0 2px;
-                padding: 3px 10px;
-                width: 100%;
-                font-weight: bold;
-                text-transform: uppercase;
-                font-size: 0.8em;
-            }
         }
     }
     
@@ -68,6 +135,45 @@ div.post {
         color: inherit;
         opacity: 0.8;
         // margin-left: 5px;
+    }
+}
+
+.posts-container form {
+    width: 50%;
+    margin: 40px auto;
+
+    .input-container {
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 270px 70px;
+        place-items: end;
+
+        input:not([type=submit]) {
+            border-right: none;
+            transition: background-color 80ms ease;
+
+            &:hover {
+                background-color: rgb(240, 240, 240);
+            }
+        }
+
+        input[type=submit] {
+            height: fit-content;
+            width: fit-content;
+            place-self: end baseline;
+            border-left: none;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            background-color: #52c41a;
+            transition: 80ms ease;
+            padding: 5px 10px;
+            
+            &:hover {
+                background-color: #389e0d;
+            }
+        }
     }
 }
 
@@ -143,7 +249,7 @@ form#createPost {
 }
 
 .comments-container {
-    background-color: rgb(204, 204, 204);
+    background-color: white;
 
     .write-comment-container {
         padding: 20px 20%;

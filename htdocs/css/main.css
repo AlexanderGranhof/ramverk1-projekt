@@ -183,18 +183,89 @@ body[class=route-] div.container span.footer {
 body[class=route-] .outer-wrap-footer {
   display: none;
 }
+body[class^=route-posts]::before {
+  content: "";
+  position: fixed;
+  top: 100px;
+  left: 0;
+  z-index: -1;
+  display: block;
+  width: 100vw;
+  height: calc(100vh - 100px);
+  background-image: url(../img/cutting-board-no-knife.jpg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  filter: blur(2px);
+}
+body[class^=route-posts] div.outer-wrap-main,
+body[class^=route-posts]::before {
+  opacity: 0;
+}
+body[class^=route-posts] div.outer-wrap-main,
+body[class^=route-posts]::before {
+  animation: fade-in 1s forwards ease-out;
+}
+body[class^=route-posts] .tags {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 40px;
+}
+body[class^=route-posts] .tag-wrapper {
+  margin: 0 3px;
+}
+body[class^=route-posts] .tag-wrapper:first-child {
+  margin-left: 0;
+}
+body[class^=route-posts] .tag-wrapper:last-child {
+  margin-right: 0;
+}
+body[class^=route-posts] .tag {
+  padding: 3px 5px;
+  font-size: 0.8em;
+  color: white;
+  background-color: #2AC9BF;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+body[class^=route-posts] .create-filter-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-items: center;
+}
+body[class^=route-posts] .create-filter-container > div:first-child {
+  place-self: center start;
+}
+body[class^=route-posts] .create-filter-container form {
+  place-self: center end;
+  width: unset;
+  margin: unset;
+}
+body[class^=route-posts] .create-filter-container form .input-container {
+  width: unset;
+  margin-bottom: unset;
+  margin: unset;
+}
 .route-posts-new .input-container label {
   display: block;
   margin-top: 10px;
 }
 div.post {
-  background-color: #ebebeb;
+  background-color: white;
   margin: 20px 0;
-  padding: 20px 60px;
+  padding: 40px;
   position: relative;
 }
+div.post .username {
+  color: #9b9b9b;
+}
+div.post .title {
+  font-weight: 500;
+}
+div.post .content {
+  color: #868686;
+}
 div.post.single {
-  padding: 20px 40px;
   display: grid;
   grid-template-columns: 40px 1fr;
 }
@@ -207,25 +278,6 @@ div.post.single .vote .arrow-up {
 div.post.single .post-score {
   place-self: center baseline;
 }
-div.post.single .tags {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 20px;
-}
-div.post.single .tags::before {
-  content: "Tags: ";
-}
-div.post.single .tags .tag {
-  background-color: #4b4b64;
-  color: white;
-  margin: 0 2px;
-  padding: 3px 10px;
-  width: 100%;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 0.8em;
-}
 div.post a.post-link {
   text-decoration: none;
   color: inherit;
@@ -237,6 +289,39 @@ div.post a.username {
   text-decoration: none;
   color: inherit;
   opacity: 0.8;
+}
+.posts-container form {
+  width: 50%;
+  margin: 40px auto;
+}
+.posts-container form .input-container {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 270px 70px;
+  place-items: end;
+}
+.posts-container form .input-container input:not([type=submit]) {
+  border-right: none;
+  transition: background-color 80ms ease;
+}
+.posts-container form .input-container input:not([type=submit]):hover {
+  background-color: #f0f0f0;
+}
+.posts-container form .input-container input[type=submit] {
+  height: fit-content;
+  width: fit-content;
+  place-self: end baseline;
+  border-left: none;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: #52c41a;
+  transition: 80ms ease;
+  padding: 5px 10px;
+}
+.posts-container form .input-container input[type=submit]:hover {
+  background-color: #389e0d;
 }
 main {
   margin: 0 20vw;
@@ -298,7 +383,7 @@ form#createPost input[type=submit] {
   cursor: pointer;
 }
 .comments-container {
-  background-color: #cccccc;
+  background-color: white;
 }
 .comments-container .write-comment-container {
   padding: 20px 20%;
@@ -566,7 +651,9 @@ body[class^=route-profile] .login-container .sign-up {
 }
 .user-description {
   display: grid;
-  margin: 0 20vw;
+  margin: 40px 20vw;
+  background-color: white;
+  padding: 40px;
   grid-template-columns: 80px 1fr;
   column-gap: 20px;
 }
@@ -626,70 +713,109 @@ a {
 .user-post {
   width: 100%;
 }
+.user-post h1 {
+  margin: 10px 0;
+}
 .posts {
   width: 100%;
 }
-body[class^=route-] main {
+body[class=route-popular] main {
   margin: 0 10vw;
 }
-.popular {
+body[class=route-popular]::before {
+  content: "";
+  position: fixed;
+  top: 100px;
+  left: 0;
+  z-index: -1;
+  display: block;
+  width: 100vw;
+  height: calc(100vh - 100px);
+  background-image: url(../img/cutting-board-no-knife.jpg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  filter: blur(2px);
+}
+body[class=route-popular] div.outer-wrap-main,
+body[class=route-popular]::before {
+  opacity: 0;
+}
+body[class=route-popular] div.outer-wrap-main,
+body[class=route-popular]::before {
+  animation: fade-in 1s forwards ease-out;
+}
+body[class=route-popular] .popular-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  row-gap: 100px;
-  column-gap: 20px;
+  place-items: center;
+  row-gap: 20px;
+  margin: 0 auto;
+  margin-top: 125px;
+  width: 75%;
 }
-.popular > div > div {
-  overflow: overlay;
-  max-height: 375px;
+body[class=route-popular] .post {
+  padding: 40px;
+  background-color: white;
+  width: 100%;
 }
-.popular > div > h1 {
-  margin-bottom: 30px;
+body[class=route-popular] .post .username {
+  color: #9b9b9b;
 }
-.popular h1 {
-  text-align: center;
+body[class=route-popular] .post .title {
+  font-weight: 500;
 }
-.popular .popular-tags {
-  grid-column: 1 / span all;
+body[class=route-popular] .post .content {
+  color: #868686;
 }
-.popular .popular-tags .tags {
-  display: grid;
-  grid-template-rows: 75px 1fr;
-  grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
-  column-gap: 5px;
+body[class=route-popular] .tag-wrapper {
+  margin: 0 3px;
 }
-.popular .popular-tags .single-tag {
-  background-color: #4b4b64;
-  color: white;
-  margin: 0 2px;
-  padding: 3px 10px;
-  width: fit-content;
-  font-weight: bold;
-  text-transform: uppercase;
+body[class=route-popular] .tag-wrapper:first-child {
+  margin-left: 0;
+}
+body[class=route-popular] .tag-wrapper:last-child {
+  margin-right: 0;
+}
+body[class=route-popular] .tag {
+  padding: 3px 5px;
   font-size: 0.8em;
+  color: white;
+  background-color: #2AC9BF;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+body[class=route-popular] .tag.large {
+  font-size: 2em;
+  padding: 15px 25px;
+}
+body[class=route-popular] .tags {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 40px;
+}
+body[class=route-popular] .user-description {
+  background-color: white;
+  padding: 20px 40px;
+  margin: 0;
+}
+body[class=route-popular] .user-tag-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+}
+body[class=route-popular] .user-tag-container h1 {
+  margin-bottom: 20px;
+  place-self: start start;
+}
+body[class=route-popular] .user-tag-container .user-description {
   place-self: center;
 }
-.popular .comment {
-  background-color: #f2f2f2;
-  padding: 10px 20px;
-  margin: 10px 0;
+body[class=route-popular] .user-tag-container .tag-container {
+  place-self: center;
 }
-.popular .comment:first-child {
-  margin-top: 0;
-}
-.popular .comment:last-child {
-  margin-bottom: 0;
-}
-.popular .comment .comment-text {
-  margin: 5px 0;
-}
-.popular .post h1 {
-  text-align: unset;
-}
-.popular .post .content * {
-  display: inline;
-}
-.popular .post img {
-  display: none;
+body[class=route-popular] .most-popular-title {
+  color: #333;
+  font-weight: 600;
 }
 .user-container {
   margin: 20px 5px;
