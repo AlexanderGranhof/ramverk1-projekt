@@ -10,7 +10,7 @@ return [
             "handler" => "\Algn\Controller\PostsController",
         ],
         [
-            "mount" => "user",
+            "mount" => "profile",
             "handler" => "\Algn\Controller\UserController"
         ],
         [
