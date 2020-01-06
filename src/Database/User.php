@@ -16,7 +16,7 @@ class User extends Database
     }
 
     public function all() {
-        $stmt = $this->db->prepare("SELECT id, username, created FROM users");
+        $stmt = $this->db->prepare("SELECT id, username, created, email FROM users");
         $stmt->execute();
 
         return $stmt->fetchAll();
