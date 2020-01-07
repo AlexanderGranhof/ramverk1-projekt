@@ -42,14 +42,7 @@
     }
 ?>
 
-<div class="posts-container">    
-    <?php if ($error): ?>
-        <h1>Failed to create post</h1>
-    <?php endif; ?>
-    
-    <?php if (count($posts) <= 0): ?>
-        <h1 class="no-posts">No posts around here ¯\_(ツ)_/¯</h1>
-    <?php else: ?>
+<div class="posts-container">
     <div class="create-filter-container">
         <div>
             <?php if ($userid): ?>
@@ -65,6 +58,13 @@
             <input type="submit" value="Filter">
         </div>
     </div>
+    <?php if ($error): ?>
+        <h1>Failed to create post</h1>
+    <?php endif; ?>
+    
+    <?php if (count($posts) <= 0): ?>
+        <h1 class="no-posts">No posts around here ¯\_(ツ)_/¯</h1>
+    <?php else: ?>
     </form>
         <?php foreach($posts as $post): ?>
             <div class="post">
