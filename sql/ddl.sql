@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    username VARCHAR(191) UNIQUE NOT NULL,
+    email VARCHAR(191) NOT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP,
     password varchar(64) NOT NULL,
 
