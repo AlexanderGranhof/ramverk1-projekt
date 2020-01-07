@@ -18,6 +18,10 @@ return [
             "handler" => "\Algn\Controller\PopularController"
         ],
         [
+            "mount" => "tags",
+            "handler" => "\Algn\Controller\TagsController"
+        ],
+        [
             "mount" => "",
             "handler" => "\Algn\Controller\HomeController",
         ],
