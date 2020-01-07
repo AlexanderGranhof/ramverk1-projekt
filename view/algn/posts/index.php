@@ -71,7 +71,7 @@
                 <a href="profile/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_index($post["created"]) ?> </a>
                 <div class="tags">
                     <?php foreach(explode(",", $post["tags"]) as $tag): ?>
-                    <a class="tag-wrapper" href="../posts?tags=<?= $tag ?>">
+                    <a class="tag-wrapper" href="posts?tags=<?= $tag ?>">
                         <span class="tag"><?= $tag ?></span>
                     </a>
                     <?php endforeach; ?>
