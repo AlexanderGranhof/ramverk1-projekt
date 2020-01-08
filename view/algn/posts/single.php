@@ -265,7 +265,7 @@
         });
 
         if (response.ok) {
-            console.log(await response.text());
+            window.location.reload();
         }
     }
 
