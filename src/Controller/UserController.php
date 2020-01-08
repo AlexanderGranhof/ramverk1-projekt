@@ -108,7 +108,7 @@ class UserController implements ContainerInjectableInterface
             $session->set("userid", $result["id"]);
         }
 
-        return $res->redirect("user");
+        return $res->redirect("profile");
     }
 
     public function catchAll(...$args): object {
