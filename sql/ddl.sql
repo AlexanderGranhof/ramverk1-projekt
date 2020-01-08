@@ -22,6 +22,7 @@ CREATE TABLE posts (
     user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
     tags TEXT,
+    deleted BIT DEFAULT 0,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -50,6 +51,7 @@ CREATE TABLE comments (
     FOREIGN KEY (comment_reply_id) REFERENCES comments(id),
     created DATETIME DEFAULT CURRENT_TIMESTAMP,
     answer BIT DEFAULT 0,
+    deleted BIT DEFAULT 0,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
