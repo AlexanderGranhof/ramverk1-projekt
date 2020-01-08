@@ -66,7 +66,17 @@ class TagsController implements ContainerInjectableInterface
             return $page->render();
         }
 
-        $page->add("algn/tags/index");
+        $tags = $post->popularTags();
+
+        $finalTags = [];
+
+        foreach($tags as $tag => $score) {
+            $finalTags[]= $tag;
+        }
+
+        $page->add("algn/tags/index", [
+            "tags" => $finalTags
+        ]);
 
         return $page->render();
     }

@@ -142,6 +142,19 @@ class PostsController implements ContainerInjectableInterface
         return $res->redirect("posts/$id");
     }
 
+    public function indexActionDelete() {
+        $req = $this->di->get("request");
+        $post = new Post();
+
+        $body = json_decode($req->getBody() ?? "");
+
+        $id = $body->id ?? null;
+        
+        if ($id) {
+            $post->softDeletePost($id);
+        }
+    }
+
     public function commentActionPost(): string {
         $req = $this->di->get("request");
         $session = $this->di->get("session");
@@ -160,6 +173,19 @@ class PostsController implements ContainerInjectableInterface
         // var_dump($result);
 
         return $result ? "true" : "false";
+    }
+
+    public function commentActionDelete() {
+        $req = $this->di->get("request");
+        $post = new Post();
+
+        $body = json_decode($req->getBody() ?? "");
+
+        $id = $body->id ?? null;
+        
+        if ($id) {
+            $post->softDeleteComment($id);
+        }
     }
 
     public function commentVoteActionPost(): string {
