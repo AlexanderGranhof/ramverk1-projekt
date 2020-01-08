@@ -19,7 +19,7 @@ class Post extends Database
     }
 
     public function rank($pid) {
-        $stmt = $this->db->prepare("SELECT COUNT(id) AS `rank` FROM (SELECT posts.id AS `id`, COALESCE(post_votes.score, 0) AS `score` FROM posts WHERE posts.deleted = 0 LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id ORDER BY score DESC, id ASC ) AS result WHERE id <= :pid");
+        $stmt = $this->db->prepare("SELECT COUNT(id) AS `rank` FROM (SELECT posts.id AS `id`, COALESCE(post_votes.score, 0) AS `score` FROM posts LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id WHERE posts.deleted = 0 ORDER BY score DESC, id ASC ) AS result WHERE id <= :pid");
         $stmt->execute(["pid" => $pid]);
 
         return $stmt->fetch()["rank"] ?? null;
@@ -70,7 +70,7 @@ class Post extends Database
     }
 
     public function popularTags() {
-        $stmt = $this->db->prepare("SELECT posts.tags, SUM(COALESCE(post_votes.score, 0)) AS `score` FROM posts LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id GROUP BY tags");
+        $stmt = $this->db->prepare("SELECT posts.tags, SUM(COALESCE(post_votes.score, 0)) AS `score` FROM posts LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id WHERE posts.deleted = 0 GROUP BY tags");
         $stmt->execute();
 
         $result = $stmt->fetchAll();
