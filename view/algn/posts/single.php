@@ -9,7 +9,9 @@
     global $isOwnPost;
     global $hasAnswer;
     global $loggedIn;
+    global $currentUID;
 
+    $currentUID = $this->di->get("session")->get("userid");
 
     $isOwnPost = $temp;
     $loggedIn = $temp2;
@@ -64,12 +66,14 @@
         global $isOwnPost;
         global $hasAnswer;
         global $loggedIn;
+        global $currentUID;
         // var_dump($comment);
         // echo "<br><br>";
         $parsedown = new Parsedown();
 
         $score = $userCommentScores[$comment["id"]] ?? 0;
 
+        $deleted = $comment["deleted"];
         $id = $comment["id"];
         $arrowUp = $score == 1 ? "selected" : "";
         $arrowDown = $score == -1 ? "selected" : "";
@@ -81,8 +85,8 @@
         $isChild = $isChild ? "child" : "";
         $answerClass = $answer ? "class='answer'" : "";
 
-        $arrowsDisabled = !$loggedIn ? "disabled" : ""; 
-
+        $arrowsDisabled = !$loggedIn || $deleted ? "disabled" : "";
+           
         return "<div class='comment $isChild'>" .
             "<div class='vote' data-id='$id'>" .
                 "<span class='arrow-up $arrowUp $arrowsDisabled'>▶</span>" .
@@ -90,10 +94,11 @@
             "</div>" .
             "<div data-id='$id' $answerClass>" .
                 "<a class='username' href='../profile/$username'>$username | $score points | $created</a>" .
-                "<div class='comment-text'>$content</div>" .
+                "<div class='comment-text " . ($deleted ? "removed" : "") . "'>" . (!$deleted ? $content : '[REMOVED]') . "</div>" .
                 "<div class='comment-extras'>" . 
-                    "<span data-id='$id' class='reply-button'>reply</span>" .
+                    (!$deleted ? "<span data-id='$id' class='reply-button'>reply</span>" : "") .
                     ($isOwnPost && !$hasAnswer ? "<span class='mark-as-answer'>mark as answer</span>" : "") .
+                    ($currentUID == $comment["user_id"] && !$deleted ? "<span data-id='$id' class='delete-comment'>delete</span>" : "") .
                 "</div>" . 
             "</div>" .
             $child .
@@ -213,6 +218,9 @@
             <div class="content">
                 <?= $parsedown->text($post["content"]) ?>
             </div>
+            <?php if ($isOwnPost) : ?>
+                <span data-id="<?= $post["id"] ?>" class="delete-post">delete</span>
+            <?php endif; ?>
         </div>
     </div>
 </div>
@@ -241,6 +249,53 @@
 </div>
 
 <script>
+
+    const deletePostBtn = document.querySelector(".delete-post");
+
+    async function handleDeletePost() {
+        const confirmDelete = confirm("Are you sure you want to delete this post?");
+
+        if (!confirmDelete) return;
+
+        const response = await fetch("posts", {
+            method: "DELETE",
+            body: JSON.stringify({
+                id: parseInt(this.dataset.id)
+            })
+        });
+
+        if (response.ok) {
+            console.log(await response.text());
+        }
+    }
+
+    deletePostBtn.addEventListener("click", handleDeletePost)
+    
+
+    const deleteBtns = document.querySelectorAll(".delete-comment");
+
+    async function handleDeleteComment() {
+        const container = this.parentElement.parentElement.parentElement;
+        const id = parseInt(this.dataset.id);
+
+        const answer = confirm("Are you sure you want to delete your comment?");
+
+        if (!answer) return;
+
+        const response = await fetch("comment", {
+            method: "DELETE",
+            body: JSON.stringify({ id })
+        });
+
+        if (response.ok) {
+            container.remove();
+        }
+    }
+
+    for(const btn of deleteBtns) {
+        btn.addEventListener("click", handleDeleteComment);
+    }
+
     const markAsAnswerButtons = document.querySelectorAll(".mark-as-answer");
 
     async function handleMarkAsAnswer() {
