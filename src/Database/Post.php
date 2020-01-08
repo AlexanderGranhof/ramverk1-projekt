@@ -12,21 +12,21 @@ class Post extends Database
     }
 
     public function all() {
-        $stmt = $this->db->prepare("SELECT posts.*, users.username, SUM(post_votes.score) AS score FROM posts INNER JOIN users ON posts.user_id = users.id LEFT OUTER JOIN post_votes on post_votes.post_id = posts.id GROUP BY posts.id");
+        $stmt = $this->db->prepare("SELECT posts.*, users.username, SUM(post_votes.score) AS score FROM posts INNER JOIN users ON posts.user_id = users.id LEFT OUTER JOIN post_votes on post_votes.post_id = posts.id WHERE posts.deleted = 0 GROUP BY posts.id");
         $stmt->execute();
 
         return $stmt->fetchAll();
     }
 
     public function rank($pid) {
-        $stmt = $this->db->prepare("SELECT COUNT(id) AS `rank` FROM (SELECT posts.id AS `id`, COALESCE(post_votes.score, 0) AS `score` FROM posts LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id ORDER BY score DESC, id ASC ) AS result WHERE id <= :pid");
+        $stmt = $this->db->prepare("SELECT COUNT(id) AS `rank` FROM (SELECT posts.id AS `id`, COALESCE(post_votes.score, 0) AS `score` FROM posts WHERE posts.deleted = 0 LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id ORDER BY score DESC, id ASC ) AS result WHERE id <= :pid");
         $stmt->execute(["pid" => $pid]);
 
         return $stmt->fetch()["rank"] ?? null;
     }
 
     public function get($id) {
-        $stmt = $this->db->prepare("SELECT posts.*, users.username, SUM(post_votes.score) AS `score` FROM posts INNER JOIN users ON posts.user_id = users.id LEFT OUTER JOIN post_votes on post_votes.post_id = posts.id WHERE posts.id = :id GROUP BY posts.id, post_votes.post_id");
+        $stmt = $this->db->prepare("SELECT posts.*, users.username, SUM(post_votes.score) AS `score` FROM posts INNER JOIN users ON posts.user_id = users.id LEFT OUTER JOIN post_votes on post_votes.post_id = posts.id WHERE posts.id = :id AND posts.deleted = 0 GROUP BY posts.id, post_votes.post_id");
         $stmt->execute(["id" => $id]);
 
         return $stmt->fetch();
@@ -57,6 +57,16 @@ class Post extends Database
         $stmt->execute(["uid" => $uid, "pid" => $pid]);
 
         return $stmt->fetchAll();
+    }
+
+    public function softDeleteComment($id) {
+        $stmt = $this->db->prepare("UPDATE comments SET deleted = 1 WHERE id = :id");
+        $stmt->execute(["id" => $id]);
+    }
+
+    public function softDeletePost($id) {
+        $stmt = $this->db->prepare("UPDATE posts SET deleted = 1 WHERE id = :id");
+        $stmt->execute(["id" => $id]);
     }
 
     public function popularTags() {
