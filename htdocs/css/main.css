@@ -283,6 +283,25 @@ div.post.single .vote .arrow-up {
 div.post.single .post-score {
   place-self: center baseline;
 }
+div.post.single .delete-post {
+  position: absolute;
+  cursor: pointer;
+  opacity: 0.5;
+  bottom: 0;
+  right: 0;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: white;
+  padding: 5px 10px;
+  background-color: #f09fa3;
+  margin: 10px;
+  transition: 120ms ease;
+}
+div.post.single .delete-post:hover {
+  background-color: #f5222d;
+  opacity: 1;
+}
 div.post a.post-link {
   text-decoration: none;
   color: inherit;
@@ -339,6 +358,10 @@ div.post a.username {
   padding: 5px;
   border: none;
   cursor: pointer;
+}
+.comment-text.removed {
+  font-size: 0.8em;
+  color: #333;
 }
 main {
   margin: 0 20vw;
@@ -460,11 +483,16 @@ div.vote .arrow-up.selected,
 div.vote .arrow-down.selected {
   color: #fa541c;
 }
+div.vote .arrow-up.disabled,
+div.vote .arrow-down.disabled {
+  color: rgba(0, 0, 0, 0.25);
+  cursor: default;
+}
 div.vote .arrow-up {
   user-select: none;
   cursor: pointer;
   display: inline-block;
-  transform: rotate(-90deg) translateY(-3.5px);
+  transform: rotate(-90deg) translateY(-2.6px);
   width: 15px;
   height: 15px;
   place-self: end;
