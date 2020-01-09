@@ -65,7 +65,11 @@ class User extends Database
         $stmt->execute(["name" => $name]);
 
         return $stmt->fetch();
+    }
 
+    public function grantMod($userID) {
+        $stmt = $this->db->prepare("UPDATE users SET moderator = 1 WHERE id = :uid");
+        $stmt->execute(["uid" => $userID]);
     }
 
     public function register($username, $password, $email) {

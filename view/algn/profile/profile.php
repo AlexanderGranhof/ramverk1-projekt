@@ -8,7 +8,8 @@
 
     $parsedown = new Parsedown();
     $loggedInUid = $session->get("userid");
-    $isMod = !!$user["moderator"];
+    $userIsMod = !!$user["moderator"];
+    $loggedInUserIsMod = !!$loggedInUser["moderator"];
 
     $isOwnProfile = $loggedInUid === $uid;
 
@@ -57,7 +58,7 @@
             <?php if ($isOwnProfile): ?>
                 <span class="logged-in-as">Logged in as:</span>
             <?php endif; ?>
-            <h1 class="username"><?= $user["username"] ?><?= $isMod ? "<img class='mod-badge' src='../img/mod.png'>" : "" ?></h1>
+            <h1 class="username"><?= $user["username"] ?><?= $userIsMod ? "<img class='mod-badge' src='../img/mod.png'>" : "" ?></h1>
             <span class="light">User score: <?= $score ?? 0 ?></span>
         </div>
         <?php if ($isOwnProfile): ?>
@@ -66,9 +67,10 @@
                 <input type="submit" value="Sign out">
             </form>
         <?php endif; ?>
-        <?php if ($isMod && !$isOwnProfile): ?>
-            <form action="mod">
+        <?php if ($loggedInUserIsMod && !$isOwnProfile && !$userIsMod): ?>
+            <form class="grant-mod" action="mod" method="POST">
                 <input type="hidden" name="user-id" value="<?= $user["id"] ?>">
+                <input type="hidden" name="user-name" value="<?= $user["username"] ?>">
                 <input type="submit" value="Grant mod">
             </form>
         <?php endif; ?>

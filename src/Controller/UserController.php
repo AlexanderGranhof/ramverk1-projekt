@@ -76,6 +76,31 @@ class UserController implements ContainerInjectableInterface
         return $res->redirect("profile");
     }
 
+    public function modActionPost() {
+        $req = $this->di->get("request");
+        $res = $this->di->get("response");
+        $user = new User();
+
+        $body = $req->getPost();
+
+        $userID = $body["user-id"] ?? null;
+        $userName = $body["user-name"] ?? null;
+
+        if (!is_null($userID)) {
+            $id = intval($userID);
+
+            if (!is_nan($id)) {
+                $user->grantMod($id);
+            }
+        }
+
+        if ($userName) {
+            return $res->redirect("profile/$userName");
+        }
+        
+        return $res->redirect("profile");
+    }
+
     public function registerAction(): object {
         $page = $this->di->get("page");
 
