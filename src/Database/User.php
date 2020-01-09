@@ -71,11 +71,16 @@ class User extends Database
     public function register($username, $password, $email) {
         $password = hash("sha256", $password);
 
-        $isAdmin = $username == "admin";
+        $isAdmin = $username == "admin" ? 1 : 0;
 
         try {
-            $stmt = $this->db->prepare("INSERT INTO users (username, password, email, moderator) VALUES (:username, :password, :email, :mod)");
-            $stmt->execute(["username" => $username, "password" => $password, "email" => $email, "mod" => $isAdmin ? 1 : 0]);
+            if ($isAdmin) {
+                $stmt = $this->db->prepare("INSERT INTO users (username, password, email, moderator) VALUES (:username, :password, :email, 1)");
+            } else {
+                $stmt = $this->db->prepare("INSERT INTO users (username, password, email, moderator) VALUES (:username, :password, :email, 0)");
+            }
+
+            $stmt->execute(["username" => $username, "password" => $password, "email" => $email]);
 
             $stmt = $this->db->prepare("SELECT * FROM users WHERE username = :username AND password = :password AND email = :email");
             $stmt->execute(["username" => $username, "password" => $password, "email" => $email]);
