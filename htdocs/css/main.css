@@ -104,6 +104,19 @@ form .input-container label {
   display: block;
   margin-top: 10px;
 }
+.mod-badge {
+  width: 20px;
+  margin: 0 5px;
+  line-height: 0;
+  margin-bottom: -2px;
+}
+.mod-badge.medium {
+  width: 15px;
+}
+.mod-badge.small {
+  width: 12.5px;
+  margin-bottom: -1.5px;
+}
 body[class=route-]::before {
   content: "";
   position: fixed;
@@ -694,6 +707,12 @@ body[class^=route-profile] .login-container .sign-up {
   opacity: 0.5;
   font-weight: 500;
 }
+.pwd-usr-err {
+  color: crimson;
+  margin: 30px;
+  text-align: center;
+  font-size: 1.5em;
+}
 .user-description {
   display: grid;
   margin: 40px 20vw;
@@ -966,4 +985,17 @@ body[class=route-tags] form input[type=submit] {
   font-weight: 700;
   background-color: #52c41a;
   color: white;
+}
+body[class=route-about] main a {
+  color: cornflowerblue;
+}
+body[class=route-about] p {
+  font-size: 1em;
+  margin-bottom: 20px;
+  line-height: 150%;
+  color: #333;
+  font-weight: 500;
+}
+body[class=route-about] h1 {
+  margin: 10px 0;
 }
