@@ -30,7 +30,7 @@ class User extends Database
     }
 
     public function activity($uid) {
-        $stmt = $this->db->prepare("SELECT posts.*, posts.id AS `post_id`, users.*, post_votes.score FROM posts INNER JOIN users on users.id = posts.user_id LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id WHERE posts.user_id = :uid");
+        $stmt = $this->db->prepare("SELECT posts.*, posts.id AS `post_id`, users.*, post_votes.score FROM posts INNER JOIN users on users.id = posts.user_id LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id WHERE posts.user_id = :uid AND posts.deleted = 0");
         $stmt->execute(["uid" => $uid]);
 
         $posts = $stmt->fetchAll();

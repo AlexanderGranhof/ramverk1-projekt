@@ -193,18 +193,6 @@ class Post extends Database
         $stmt = $this->db->prepare("INSERT INTO comments (comment_text, user_id, post_id, comment_reply_id) VALUES (:text, :id, :postID, :reply)");
         $stmt->execute(["text" => $text, "id" => $userID, "postID" => $postID, "reply" => $reply]);
 
-
-        // CREATE TABLE comments (
-        //     id INT AUTO_INCREMENT,
-        //     comment_text TEXT,
-        //     user_id INT NOT NULL,
-        //     FOREIGN KEY (user_id) REFERENCES users(id),
-        //     comment_reply_id INT,
-        //     FOREIGN KEY (comment_reply_id) REFERENCES comments(id),
-            
-        //     PRIMARY KEY (id)
-        // );
-
         return true;
     }
 
