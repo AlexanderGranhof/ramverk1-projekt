@@ -129,7 +129,7 @@ class UserController implements ContainerInjectableInterface
         $activity = $userdb->activity($user["id"]);
         $score = $userdb->score($route);
 
-        $loggedInUser = $userdb->get($username);
+        $loggedInUser = $userdb->get($userid);
 
         $page->add("algn/profile/profile", [
             "user" => $user,
