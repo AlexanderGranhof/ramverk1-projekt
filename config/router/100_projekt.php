@@ -22,6 +22,10 @@ return [
             "handler" => "\Algn\Controller\TagsController"
         ],
         [
+            "mount" => "about",
+            "handler" => "\Algn\Controller\AboutController"
+        ],
+        [
             "mount" => "",
             "handler" => "\Algn\Controller\HomeController",
         ],
