@@ -5,6 +5,8 @@
     $session = $di->get("session");
 
     $error = $session->getOnce("error_login");
+    $usernameErr = $session->getOnce("register_error_username");
+
     $userid = $session->get("userid");
 
     $user = null;
@@ -19,10 +21,11 @@
     }
 ?>
 
-
-
 <?php if ($error): ?>
 <h4 class="pwd-usr-err">Username or password is incorrect</h4>
+<?php endif; ?>
+<?php if ($usernameErr): ?>
+<h4 class="pwd-usr-err">Username already exists</h4>
 <?php endif; ?>
 <?php if (!$userid): ?>
     <div class="login-container">

@@ -108,6 +108,10 @@ class UserController implements ContainerInjectableInterface
             $session->set("userid", $result["id"]);
         }
 
+        if (isset($result["err"])) {
+            $session->set("register_error_username", true);
+        }
+        
         return $res->redirect("profile");
     }
 
