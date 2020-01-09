@@ -22,7 +22,7 @@
 
 
 <?php if ($error): ?>
-<h4>Username or password is incorrect</h4>
+<h4 class="pwd-usr-err">Username or password is incorrect</h4>
 <?php endif; ?>
 <?php if (!$userid): ?>
     <div class="login-container">
