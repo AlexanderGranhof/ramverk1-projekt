@@ -37,10 +37,16 @@ return [
             "title" => ""
         ],
         [
+            "text" => "About",
+            "url" => "about",
+            "class" => $last == "about" ? "active" : null,
+            "title" => ""
+        ],
+        [
             "text" => "Profile",
             "url" => "profile",
             "class" => $last == "profile" ? "active" : null,
             "title" => ""
-        ]
+        ],
     ]
 ];
