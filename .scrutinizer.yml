@@ -15,6 +15,9 @@ build:
               php:
                 version: 7.2
         tests: true
+    environment:
+        php:
+            version: 7.2
 filter:
     excluded_paths:
         - 'test/*'
