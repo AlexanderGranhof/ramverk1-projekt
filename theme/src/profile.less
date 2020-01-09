@@ -87,6 +87,7 @@ body[class^=route-profile] {
 }
 
 .user-description {
+    position: relative;
     display: grid;
     margin: 40px 20vw;
     background-color: white;
@@ -100,7 +101,7 @@ body[class^=route-profile] {
         color: #333;
     }
 
-    form {
+    form:not(.grant-mod) {
         margin: 10px 0;
         input[type=submit] {
             width: 100%;
@@ -112,6 +113,23 @@ body[class^=route-profile] {
             font-weight: bold;
             cursor: pointer;
         }
+    }
+}
+
+form.grant-mod {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 10px;
+
+    input {
+        background-color: #52c41a;
+        font-size: 1em;
+        padding: 5px 10px;
+        color: white;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
     }
 }
 

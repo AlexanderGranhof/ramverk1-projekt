@@ -108,7 +108,7 @@ form .input-container label {
   width: 20px;
   margin: 0 5px;
   line-height: 0;
-  margin-bottom: -2px;
+  margin-bottom: 0px;
 }
 .mod-badge.medium {
   width: 15px;
@@ -714,6 +714,7 @@ body[class^=route-profile] .login-container .sign-up {
   font-size: 1.5em;
 }
 .user-description {
+  position: relative;
   display: grid;
   margin: 40px 20vw;
   background-color: white;
@@ -725,14 +726,29 @@ body[class^=route-profile] .login-container .sign-up {
   opacity: 0.8;
   color: #333;
 }
-.user-description form {
+.user-description form:not(.grant-mod) {
   margin: 10px 0;
 }
-.user-description form input[type=submit] {
+.user-description form:not(.grant-mod) input[type=submit] {
   width: 100%;
   font-size: 1em;
   padding: 5px 0;
   background-color: #f5222d;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+form.grant-mod {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 10px;
+}
+form.grant-mod input {
+  background-color: #52c41a;
+  font-size: 1em;
+  padding: 5px 10px;
   color: white;
   border: none;
   font-weight: bold;
