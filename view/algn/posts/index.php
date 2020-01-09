@@ -68,7 +68,7 @@
     </form>
         <?php foreach($posts as $post): ?>
             <div class="post">
-                <a href="profile/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_index($post["created"]) ?> </a>
+                <a href="profile/<?= $post["username"] ?>" class="username"><?= $post["username"] ?><?= $post["moderator"] ? "<img class='mod-badge medium' src='img/mod.png'>" : "" ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_index($post["created"]) ?> </a>
                 <div class="tags">
                     <?php foreach(explode(",", $post["tags"]) as $tag): ?>
                     <a class="tag-wrapper" href="posts?tags=<?= $tag ?>">

@@ -12,7 +12,7 @@ class Post extends Database
     }
 
     public function all() {
-        $stmt = $this->db->prepare("SELECT posts.*, users.username, SUM(post_votes.score) AS score FROM posts INNER JOIN users ON posts.user_id = users.id LEFT OUTER JOIN post_votes on post_votes.post_id = posts.id WHERE posts.deleted = 0 GROUP BY posts.id");
+        $stmt = $this->db->prepare("SELECT posts.*, users.username, users.moderator, SUM(post_votes.score) AS score FROM posts INNER JOIN users ON posts.user_id = users.id LEFT OUTER JOIN post_votes on post_votes.post_id = posts.id WHERE posts.deleted = 0 GROUP BY posts.id");
         $stmt->execute();
 
         return $stmt->fetchAll();
@@ -118,11 +118,11 @@ class Post extends Database
     public function getComments($id, $sort=null) {
         switch ($sort) {
             case 'date':
-                $stmt = $this->db->prepare("SELECT comments.*, users.username, SUM(comment_votes.score) AS `score` FROM comments INNER JOIN users ON users.id = comments.user_id LEFT OUTER JOIN comment_votes on comment_votes.comment_id = comments.id WHERE comments.post_id = :id GROUP BY comment_votes.comment_id, comments.id ORDER BY created DESC");
+                $stmt = $this->db->prepare("SELECT comments.*, users.username, users.moderator, SUM(comment_votes.score) AS `score` FROM comments INNER JOIN users ON users.id = comments.user_id LEFT OUTER JOIN comment_votes on comment_votes.comment_id = comments.id WHERE comments.post_id = :id GROUP BY comment_votes.comment_id, comments.id ORDER BY created DESC");
                 break;
             
             default:
-                $stmt = $this->db->prepare("SELECT comments.*, users.username, SUM(comment_votes.score) AS `score` FROM comments INNER JOIN users ON users.id = comments.user_id LEFT OUTER JOIN comment_votes on comment_votes.comment_id = comments.id WHERE comments.post_id = :id GROUP BY comment_votes.comment_id, comments.id ORDER BY score DESC");
+                $stmt = $this->db->prepare("SELECT comments.*, users.username, users.moderator, SUM(comment_votes.score) AS `score` FROM comments INNER JOIN users ON users.id = comments.user_id LEFT OUTER JOIN comment_votes on comment_votes.comment_id = comments.id WHERE comments.post_id = :id GROUP BY comment_votes.comment_id, comments.id ORDER BY score DESC");
                 break;
         }
 

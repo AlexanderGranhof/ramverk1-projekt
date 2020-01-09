@@ -5,8 +5,10 @@
     $size = 40;
     $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "&s=" . $size;
 
+
     $parsedown = new Parsedown();
     $loggedInUid = $session->get("userid");
+    $isMod = !!$user["moderator"];
 
     $isOwnProfile = $loggedInUid === $uid;
 
@@ -55,13 +57,19 @@
             <?php if ($isOwnProfile): ?>
                 <span class="logged-in-as">Logged in as:</span>
             <?php endif; ?>
-            <h1 class="username"><?= $user["username"] ?></h1>
+            <h1 class="username"><?= $user["username"] ?><?= $isMod ? "<img class='mod-badge' src='../img/mod.png'>" : "" ?></h1>
             <span class="light">User score: <?= $score ?? 0 ?></span>
         </div>
         <?php if ($isOwnProfile): ?>
             <form action="." method="POST">
                 <input type="hidden" name="signout" value="true">
                 <input type="submit" value="Sign out">
+            </form>
+        <?php endif; ?>
+        <?php if ($isMod && !$isOwnProfile): ?>
+            <form action="mod">
+                <input type="hidden" name="user-id" value="<?= $user["id"] ?>">
+                <input type="submit" value="Grant mod">
             </form>
         <?php endif; ?>
     </div>

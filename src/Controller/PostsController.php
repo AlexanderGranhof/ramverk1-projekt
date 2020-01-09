@@ -278,6 +278,7 @@ class PostsController implements ContainerInjectableInterface
 
     public function catchAll($route) {
         $post = new Post();
+        $user = new User();
         $res = $this->di->get("response");
         $req = $this->di->get("request");
         $page = $this->di->get("page");
@@ -311,6 +312,9 @@ class PostsController implements ContainerInjectableInterface
         $isOwnPost = $post->isOwner($uid, $id);
 
         $rank = $post->rank($singlePost["id"]);
+
+        $postUserData = $user->get($singlePost["user_id"]);
+        $userData = $user->get($uid);
         
 
         $page->add("algn/posts/single", [
@@ -320,7 +324,9 @@ class PostsController implements ContainerInjectableInterface
             "postScore" => $postScore,
             "isOwnPost" => $isOwnPost,
             "loggedIn" => $uid,
-            "postRank" => $rank
+            "postRank" => $rank,
+            "postUser" => $postUserData,
+            "user" => $userData
         ]);
 
         return $page->render();

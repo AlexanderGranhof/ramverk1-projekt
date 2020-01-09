@@ -86,6 +86,8 @@
         $answerClass = $answer ? "class='answer'" : "";
 
         $arrowsDisabled = !$loggedIn || $deleted ? "disabled" : "";
+
+        $modImg = $comment["moderator"] ? "<img class='mod-badge small' src='../img/mod.png'>" : "";
            
         return "<div class='comment $isChild'>" .
             "<div class='vote' data-id='$id'>" .
@@ -93,7 +95,7 @@
                 "<span class='arrow-down $arrowDown $arrowsDisabled'>▶</span>" .
             "</div>" .
             "<div data-id='$id' $answerClass>" .
-                "<a class='username' href='../profile/$username'>$username | $score points | $created</a>" .
+                "<a class='username' href='../profile/$username'>$username$modImg | $score points | $created</a>" .
                 "<div class='comment-text " . ($deleted ? "removed" : "") . "'>" . (!$deleted ? $content : '[REMOVED]') . "</div>" .
                 "<div class='comment-extras'>" . 
                     (!$deleted ? "<span data-id='$id' class='reply-button'>reply</span>" : "") .
@@ -206,7 +208,7 @@
             <span class="arrow-down <?= $postScore == -1 ? "selected" : "" ?> <?= !$loggedIn ? "disabled" : "" ?>">▶</span>
         </div>
         <div>
-            <a href="../profile/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_single($post["created"]) ?> | <span class="post-rank rank-<?= $postRank ?>">Rank <?= $postRank ?></span></a>
+            <a href="../profile/<?= $post["username"] ?>" class="username"><?= $post["username"] ?><?= $postUser["moderator"] ? "<img class='mod-badge medium' src='../img/mod.png'>" : "" ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_single($post["created"]) ?> | <span class="post-rank rank-<?= $postRank ?>">Rank <?= $postRank ?></span></a>
             <h1 class="title"><?= $post["title"] ?></h1>
             <div class="tags">
                 <?php foreach(explode(",", $post["tags"]) as $tag): ?>
@@ -218,7 +220,7 @@
             <div class="content">
                 <?= $parsedown->text($post["content"]) ?>
             </div>
-            <?php if ($isOwnPost) : ?>
+            <?php if ($isOwnPost || $user["moderator"]) : ?>
                 <span data-id="<?= $post["id"] ?>" class="delete-post">delete</span>
             <?php endif; ?>
         </div>
