@@ -132,10 +132,15 @@
     const editTitle = document.querySelector("span.edit-bio-title");
     const bioTextContainer = document.querySelector("div.bio > p.bio-text");
 
-    let hasSaved = false;
+    const defaultText = "Click here to add or edit your bio";
+
+    let hasSaved = true;
     let bioBeforeEdit = bioTextContainer.textContent
 
-    textArea.value = bioBeforeEdit;
+    if (bioBeforeEdit !== defaultText) {
+        textArea.value = bioBeforeEdit;
+    }
+
 
     function handleBioClick() {
         bioTextContainer.textContent = "";
