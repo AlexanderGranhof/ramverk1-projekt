@@ -12,6 +12,25 @@ body[class=route-about] {
     }
 
     h1 {
-        margin: 10px 0;
+        margin: 10px 0 20px 0;
+    }
+
+    .image-text-combo {
+        display: grid;
+        grid-template-columns: 135px 1fr;
+        place-items: end;
+        height: 200px;
+        gap: 10px;
+
+        img {
+            height: 100%;
+            transform: rotateY(180deg);
+        }
+
+        p {
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
     }
 }
