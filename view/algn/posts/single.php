@@ -90,7 +90,7 @@
         $modImg = $comment["moderator"] ? "<img class='mod-badge small' src='../img/mod.png'>" : "";
            
         return "<div class='comment $isChild'>" .
-            "<div class='vote' data-id='$id'>" .
+            "<div class='vote comment-vote' data-id='$id'>" .
                 "<span class='arrow-up $arrowUp $arrowsDisabled'>▶</span>" .
                 "<span class='arrow-down $arrowDown $arrowsDisabled'>▶</span>" .
             "</div>" .
@@ -277,7 +277,10 @@
     const deleteBtns = document.querySelectorAll(".delete-comment");
 
     async function handleDeleteComment() {
-        const container = this.parentElement.parentElement.parentElement;
+        const container = this.parentElement.parentElement;
+        const textContainer = container.querySelector(".comment-text");
+        const extraContainer = this.parentElement;
+        const voteButtons = this.parentElement.parentElement.parentElement.firstChild;
         const id = parseInt(this.dataset.id);
 
         const answer = confirm("Are you sure you want to delete your comment?");
@@ -290,7 +293,10 @@
         });
 
         if (response.ok) {
-            container.remove();
+            textContainer.innerHTML = "[REMOVED]";
+            textContainer.classList.add("removed");
+            Array.from(voteButtons.children).forEach(child => child.classList.add("disabled"));
+            extraContainer.remove();
         }
     }
 
