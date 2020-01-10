@@ -232,6 +232,7 @@ div.post {
 }
 
 .comment-text.removed {
+    font-weight: 600;
     font-size: 0.8em;
     color: #333;
 }
@@ -371,8 +372,15 @@ div.vote {
     grid-template-rows: repeat(2, 1fr);
     height: 50px;
     row-gap: 5px;
-    margin-top: 25px;
     place-self: start baseline;
+
+    &:not(.comment-vote) {
+        margin-top: 25px;
+    }
+
+    &.comment-vote {
+        margin-top: 10px;
+    }
 
 
     .arrow-up.selected, .arrow-down.selected {
