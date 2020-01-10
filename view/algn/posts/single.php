@@ -457,10 +457,11 @@
             this.classList.toggle("selected");
             oppositeButton.classList.remove("selected");
 
-            let scoreText = scoreField.textContent;
+            let scoreText = scoreField.innerHTML;
 
-            let [username,score,created] = scoreText.split("|");
+            let [username,score,created, ...rest] = scoreText.split("|");
 
+            rest = rest.join("|");
 
             let points = isDownvote ? isUndo ? 1 : -1 : isUndo ? -1 : 1;
 
@@ -468,7 +469,7 @@
 
             score = ` ${parseInt(score) + points} points `;
 
-            scoreField.textContent = `${username}|${score}|${created}`;
+            scoreField.innerHTML = `${username}|${score}|${created}${rest ? "|" + rest : ""}`;
         }
     }
 
@@ -511,9 +512,11 @@
             this.classList.toggle("selected");
             oppositeButton.classList.remove("selected");
 
-            let scoreText = scoreField.textContent;
+            let scoreText = scoreField.innerHTML;
 
-            let [username,score,created] = scoreText.split("|");
+            let [username,score,created, ...rest] = scoreText.split("|");
+
+            rest = rest.join("|");
 
             let points = isDownvote ? isUndo ? 1 : -1 : isUndo ? -1 : 1;
 
@@ -521,7 +524,7 @@
 
             score = ` ${parseInt(score) + points} points `;
 
-            scoreField.textContent = `${username}|${score}|${created}`;
+            scoreField.innerHTML = `${username}|${score}|${created}${rest ? "|" + rest : ""}`;
         }
     }
 
