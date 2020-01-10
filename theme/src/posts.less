@@ -85,6 +85,14 @@ body[class^=route-posts] {
     }
 }
 
+.popular-list {
+    .post {
+        img {
+            display: none;
+        }
+    }
+}
+
 div.post {
     background-color: white;
     margin: 20px 0;
@@ -97,6 +105,12 @@ div.post {
 
     .title {
         font-weight: 500;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 800px;
+        object-fit: cover;
     }
 
     .content {
@@ -357,7 +371,8 @@ div.vote {
     grid-template-rows: repeat(2, 1fr);
     height: 50px;
     row-gap: 5px;
-    place-self: center baseline;
+    margin-top: 25px;
+    place-self: start baseline;
 
 
     .arrow-up.selected, .arrow-down.selected {
