@@ -268,6 +268,9 @@ body[class^=route-posts] .create-filter-container form .input-container {
   display: block;
   margin-top: 10px;
 }
+.popular-list .post img {
+  display: none;
+}
 div.post {
   background-color: white;
   margin: 20px 0;
@@ -279,6 +282,11 @@ div.post .username {
 }
 div.post .title {
   font-weight: 500;
+}
+div.post img {
+  max-width: 100%;
+  max-height: 800px;
+  object-fit: cover;
 }
 div.post .content {
   color: #868686;
@@ -490,7 +498,8 @@ div.vote {
   grid-template-rows: repeat(2, 1fr);
   height: 50px;
   row-gap: 5px;
-  place-self: center baseline;
+  margin-top: 25px;
+  place-self: start baseline;
 }
 div.vote .arrow-up.selected,
 div.vote .arrow-down.selected {
@@ -670,7 +679,7 @@ body[class^=route-profile] .region-main {
   padding: 0;
   margin: 0;
 }
-body[class^=route-profile] .login-container {
+.login-container {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -681,16 +690,16 @@ body[class^=route-profile] .login-container {
   background-color: white;
   padding: 50px 0;
 }
-body[class^=route-profile] .login-container h1 {
+.login-container h1 {
   margin-bottom: 40px;
   font-weight: lighter;
   font-size: 4em;
   color: #333;
 }
-body[class^=route-profile] .login-container input {
+.login-container input {
   padding: 5px 10px;
 }
-body[class^=route-profile] .login-container input[type=submit] {
+.login-container input[type=submit] {
   width: 100%;
   padding: 10px 0;
   font-size: 1em;
@@ -701,11 +710,28 @@ body[class^=route-profile] .login-container input[type=submit] {
   border: none;
   cursor: pointer;
 }
-body[class^=route-profile] .login-container .sign-up {
+.login-container .sign-up {
   margin: 20px;
   color: #1890ff;
   opacity: 0.5;
   font-weight: 500;
+}
+.route-posts-new .login-container form {
+  width: 100%;
+}
+.route-posts-new .login-container div.input-container {
+  margin: 0 auto;
+}
+.route-posts-new .login-container div.input-container.textarea {
+  width: 80%;
+}
+.route-posts-new .login-container div.input-container.textarea textarea {
+  width: 100%;
+}
+.route-posts-new .login-container input[type=submit] {
+  width: 80%;
+  margin: 0 auto;
+  display: block;
 }
 .pwd-usr-err {
   color: crimson;
@@ -719,7 +745,7 @@ body[class^=route-profile] .login-container .sign-up {
   margin: 40px 20vw;
   background-color: white;
   padding: 40px;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: 80px 300px 1fr;
   column-gap: 20px;
 }
 .user-description .logged-in-as {
@@ -728,6 +754,7 @@ body[class^=route-profile] .login-container .sign-up {
 }
 .user-description form:not(.grant-mod) {
   margin: 10px 0;
+  grid-column: 1;
 }
 .user-description form:not(.grant-mod) input[type=submit] {
   width: 100%;
@@ -738,6 +765,51 @@ body[class^=route-profile] .login-container .sign-up {
   border: none;
   font-weight: bold;
   cursor: pointer;
+}
+.user-description .bio-hint {
+  position: absolute;
+  right: 18%;
+  bottom: 0;
+  margin-bottom: 13px;
+}
+.user-description .bio {
+  grid-row: 1 / span 3;
+  grid-column: 3;
+  padding: 20px;
+  background-color: #f2f2f2;
+  max-height: 133px;
+  overflow: overlay;
+  font-size: 1.5em;
+}
+.user-description .bio.editing {
+  padding: 15px;
+}
+.user-description .bio form.edit-bio {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+.user-description .bio form.edit-bio.hidden {
+  display: none;
+}
+.user-description .bio form.edit-bio textarea {
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+  resize: none;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-size: 1em;
+}
+.user-description .bio .bio-text {
+  white-space: pre-line;
+}
+.user-description .bio span.edit-bio-title {
+  color: #808080;
+}
+.user-description .bio span.edit-bio-title.hidden {
+  display: none;
 }
 form.grant-mod {
   position: absolute;

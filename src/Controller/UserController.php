@@ -35,6 +35,11 @@ class UserController implements ContainerInjectableInterface
             $user = new User();
             $userData = $user->get($uid);
 
+            if (!$userData) {
+                $session->delete("userid");
+                return $res->redirect("profile");
+            }
+
             if ($userData) {
                 $username = $userData["username"];
 
@@ -107,6 +112,22 @@ class UserController implements ContainerInjectableInterface
         $page->add("algn/profile/register");
 
         return $page->render();
+    }
+
+    public function bioActionPost() {
+        $req = $this->di->get("request");
+        $session = $this->di->get("session");
+        $user = new User();
+        $uid = $session->get("userid");
+
+        $body = $req->getPost();
+
+        $bio = $body["bio"] ?? null;
+
+
+        if ($bio && $uid) {
+            $user->setBio($uid, $bio);
+        }
     }
 
     public function  registerActionPost(): object {

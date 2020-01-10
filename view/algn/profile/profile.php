@@ -53,7 +53,9 @@
     <h1 class="no-posts">No user around here ¯\_(ツ)_/¯</h1>
 <?php else: ?>
     <div class="user-description">
-        <img src="<?= $grav_url ?>" alt="">
+        <a target="_BLANK" href="https://en.gravatar.com/">
+            <img src="<?= $grav_url ?>" alt="">
+        </a>
         <div class="username-container">
             <?php if ($isOwnProfile): ?>
                 <span class="logged-in-as">Logged in as:</span>
@@ -67,6 +69,13 @@
                 <input type="submit" value="Sign out">
             </form>
         <?php endif; ?>
+        <div class="bio">
+            <form action="" class="edit-bio hidden">
+                <textarea name="" id=""></textarea>
+            </form>
+            <p class="bio-text"><?= $user["bio"] ?? "<span class='edit-bio-title'>Click here to add or edit your bio</span>" ?></p>
+        </div>
+        <span class="bio-hint light">The bio will automatically save when you edit</span>
         <?php if ($loggedInUserIsMod && !$isOwnProfile && !$userIsMod): ?>
             <form class="grant-mod" action="mod" method="POST">
                 <input type="hidden" name="user-id" value="<?= $user["id"] ?>">
@@ -102,7 +111,6 @@
         <div class="posts">
             <h3>Previous posts</h3>
             <?php foreach($activity["posts"] as $post): ?>
-                <!-- <?= var_dump($post) ?> -->
                 <div class="user-post post">
                     <a href="<?= $post["username"] ?>">
                         <span class="light"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string($post["created"]) ?></span>
@@ -116,3 +124,57 @@
         </div>
     </div>
 <?php endif; ?>
+
+<script>
+    const bio = document.querySelector("div.bio");
+    const bioForm = document.querySelector("form.edit-bio");
+    const textArea = document.querySelector("form.edit-bio > textarea");
+    const editTitle = document.querySelector("span.edit-bio-title");
+    const bioTextContainer = document.querySelector("div.bio > p.bio-text");
+
+    let hasSaved = false;
+    let bioBeforeEdit = bioTextContainer.textContent
+
+    textArea.value = bioBeforeEdit;
+
+    function handleBioClick() {
+        bioTextContainer.textContent = "";
+        bioForm.classList.remove("hidden");
+        editTitle && editTitle.classList.remove("hidden");
+        bio.classList.add("editing");
+
+        textArea.focus();
+        
+        hasSaved = false;
+    }
+
+    async function handleTextareaBlur() {
+        bio.classList.remove("editing");
+        bioForm.classList.add("hidden");
+        editTitle && editTitle.classList.add("hidden");
+
+        const newBio = textArea.value;
+
+        bioTextContainer.innerHTML = newBio;
+
+        let data = new FormData();
+
+        data.append("bio", newBio);
+
+        fetch("bio", {
+            method: "POST",
+            body: data
+        });
+
+        hasSaved = true;
+    }
+
+    bio.addEventListener("click", handleBioClick);
+    textArea.addEventListener("blur", handleTextareaBlur);
+
+    window.onbeforeunload = function(event) {
+        const askBeforeReload = !hasSaved && bioBeforeEdit !== textArea.value;
+        
+        return askBeforeReload ? true : null;
+    };
+</script>

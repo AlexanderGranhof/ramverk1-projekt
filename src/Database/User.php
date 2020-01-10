@@ -67,6 +67,11 @@ class User extends Database
         return $stmt->fetch();
     }
 
+    public function setBio($uid, $bio) {
+        $stmt = $this->db->prepare("UPDATE users SET bio = :bio WHERE id = :uid");
+        $stmt->execute(["uid" => $uid, "bio" => $bio]);
+    }
+
     public function grantMod($userID) {
         $stmt = $this->db->prepare("UPDATE users SET moderator = 1 WHERE id = :uid");
         $stmt->execute(["uid" => $userID]);

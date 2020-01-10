@@ -10,6 +10,7 @@ CREATE TABLE users (
     email VARCHAR(191) NOT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP,
     password varchar(64) NOT NULL,
+    bio TEXT,
     moderator BIT DEFAULT 0,
 
     PRIMARY KEY (id)
