@@ -31,7 +31,7 @@ class AboutController implements ContainerInjectableInterface
 
         $page->add("algn/about/index");
 
-        return $page->render();
+        return $page->render(["title" => "About", "baseTitle" => " | FoodFlow"]);
     }
 
     public function catchAll(...$args) {
@@ -39,6 +39,6 @@ class AboutController implements ContainerInjectableInterface
 
         $page->add("algn/home/404");
 
-        return $page->render();
+        return $page->render(["title" => "404", "baseTitle" => " | FoodFlow"]);
     }
 }

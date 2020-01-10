@@ -42,6 +42,6 @@ class ResetController implements ContainerInjectableInterface
 
         $page->add("algn/home/404");
 
-        return $page->render();
+        return $page->render(["title" => "404", "baseTitle" => " | FoodFlow"]);
     }
 }

@@ -69,7 +69,7 @@ class PostsController implements ContainerInjectableInterface
             "posts" => $allPosts
         ]);
 
-        return $page->render();
+        return $page->render(["title" => "Posts", "baseTitle" => " | FoodFlow"]);
     }
 
     public function newAction(): object {
@@ -80,7 +80,7 @@ class PostsController implements ContainerInjectableInterface
 
         $page->add("algn/posts/create");
 
-        return $page->render();
+        return $page->render(["title" => "New post", "baseTitle" => " | FoodFlow"]);
     }
 
     public function newActionPost(): object {
@@ -329,6 +329,6 @@ class PostsController implements ContainerInjectableInterface
             "user" => $userData
         ]);
 
-        return $page->render();
+        return $page->render(["title" => $post["title"] ?? "post", "baseTitle" => " | FoodFlow"]);
     }
 }

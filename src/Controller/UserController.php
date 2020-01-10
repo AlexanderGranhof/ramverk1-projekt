@@ -49,7 +49,7 @@ class UserController implements ContainerInjectableInterface
 
         $page->add("algn/profile/login");
 
-        return $page->render();
+        return $page->render(["title" => "Login", "baseTitle" => " | FoodFlow"]);
     }
 
     public function indexActionPost(): object {
@@ -111,7 +111,7 @@ class UserController implements ContainerInjectableInterface
 
         $page->add("algn/profile/register");
 
-        return $page->render();
+        return $page->render(["title" => "Register", "baseTitle" => " | FoodFlow"]);
     }
 
     public function bioActionPost() {
@@ -185,6 +185,6 @@ class UserController implements ContainerInjectableInterface
             "loggedInUser" => $loggedInUser
         ]);
 
-        return $page->render();
+        return $page->render(["title" => $user["username"], "baseTitle" => " | FoodFlow"]);
     }
 }

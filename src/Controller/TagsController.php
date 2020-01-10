@@ -63,7 +63,7 @@ class TagsController implements ContainerInjectableInterface
                 "tags" => $finalTags
             ]);
 
-            return $page->render();
+            return $page->render(["title" => "Tags", "baseTitle" => " | FoodFlow"]);
         }
 
         $tags = $post->popularTags();
@@ -78,7 +78,7 @@ class TagsController implements ContainerInjectableInterface
             "tags" => $finalTags
         ]);
 
-        return $page->render();
+        return $page->render(["title" => "Tags", "baseTitle" => " | FoodFlow"]);
     }
 
     public function catchAll(...$args) {
@@ -86,6 +86,6 @@ class TagsController implements ContainerInjectableInterface
 
         $page->add("algn/home/404");
 
-        return $page->render();
+        return $page->render(["title" => "404", "baseTitle" => " | FoodFlow"]);
     }
 }

@@ -60,7 +60,7 @@ class PopularController implements ContainerInjectableInterface
             "post" => array_shift($posts)
         ]);
 
-        return $page->render();
+        return $page->render(["title" => "Popular", "baseTitle" => " | FoodFlow"]);
     }
 
     public function catchAll(...$args) {
@@ -68,6 +68,6 @@ class PopularController implements ContainerInjectableInterface
 
         $page->add("algn/home/404");
 
-        return $page->render();
+        return $page->render(["title" => "404", "baseTitle" => " | FoodFlow"]);
     }
 }
