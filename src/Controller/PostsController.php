@@ -329,6 +329,6 @@ class PostsController implements ContainerInjectableInterface
             "user" => $userData
         ]);
 
-        return $page->render(["title" => $post["title"] ?? "post", "baseTitle" => " | FoodFlow"]);
+        return $page->render(["title" => $singlePost["title"] ?? "post", "baseTitle" => " | FoodFlow"]);
     }
 }
