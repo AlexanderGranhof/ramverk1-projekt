@@ -42,8 +42,8 @@
 <div class="popular-list">
     <div style="width: 100%">
         <h1 class="most-popular-title">Most popular post</h1>
-        <div class="post">
-            <?php if ($post): ?>
+        <?php if ($post): ?>
+            <div class="post">
                 <a href="profile/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_home($post["created"]) ?></a>
                 <a href="posts/<?= $post["id"] ?>">
                     <h1 class="title"><?= $post["title"] ?></h1>
@@ -58,8 +58,8 @@
                         <?= $parsedown->text($post["content"]) ?>
                     </div>
                 </a>
-            <?endif;?>
-        </div>
+            </div>
+        <?endif;?>
     </div>
     <div class="user-tag-container">
         <div>
