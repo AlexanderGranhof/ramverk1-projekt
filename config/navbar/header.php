@@ -5,6 +5,8 @@
 $temp = explode("/", $_SERVER["REQUEST_URI"]);
 $last = array_pop($temp);
 
+$isLoggedIn = isset($_SESSION["userid"]);
+
 return [
     // Use for styling the menu
     "wrapper" => null,
@@ -43,7 +45,7 @@ return [
             "title" => ""
         ],
         [
-            "text" => "Profile",
+            "text" => $isLoggedIn ? "profile" : "Sign in",
             "url" => "profile",
             "class" => $last == "profile" ? "active" : null,
             "title" => ""
