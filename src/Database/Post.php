@@ -39,7 +39,7 @@ class Post extends Database
     }
 
     public function top() {
-        $stmt = $this->db->prepare("SELECT posts.*, users.username, post_votes.score FROM posts INNER JOIN post_votes ON post_votes.post_id = posts.id INNER JOIN users ON users.id = posts.user_id ORDER BY score DESC");
+        $stmt = $this->db->prepare("SELECT posts.*, users.username, post_votes.score FROM posts LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id INNER JOIN users ON users.id = posts.user_id ORDER BY score DESC");
         $stmt->execute();
 
         return $stmt->fetchAll();
