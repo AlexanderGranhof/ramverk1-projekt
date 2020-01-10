@@ -26,6 +26,10 @@ return [
             "handler" => "\Algn\Controller\AboutController"
         ],
         [
+            "mount" => "reset",
+            "handler" => "\Algn\Controller\ResetController",
+        ],
+        [
             "mount" => "",
             "handler" => "\Algn\Controller\HomeController",
         ],
