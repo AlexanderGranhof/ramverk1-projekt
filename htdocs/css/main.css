@@ -839,11 +839,13 @@ form.grant-mod input {
   opacity: 0.8;
   color: #333;
 }
+.comments h3,
+.posts h3 {
+  margin-bottom: 10px;
+  text-align: center;
+}
 .comments {
   width: 100%;
-}
-.comments h3 {
-  margin-bottom: 10px;
 }
 .comments .comment-container {
   margin: 20px 0;
