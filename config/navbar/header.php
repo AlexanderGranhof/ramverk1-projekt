@@ -2,7 +2,7 @@
 /**
  * Supply the basis for the navbar as an array.
  */
-$temp = explode("/", $_SERVER["REQUEST_URI"]);
+$temp = explode("/", $_SERVER["REQUEST_URI"] ?? "");
 $last = array_pop($temp);
 
 $isLoggedIn = isset($_SESSION["userid"]);
