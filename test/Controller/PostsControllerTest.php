@@ -22,7 +22,8 @@ class PostsControllerClass extends TestCase
     /**
      * Test the route "index".
      */
-    public function testIndex() {
+    public function testIndex()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -42,7 +43,8 @@ class PostsControllerClass extends TestCase
         $this->assertInstanceOf("Anax\Response\ResponseUtility", $res);
     }
 
-    public function testNewAction() {
+    public function testNewAction()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -60,7 +62,8 @@ class PostsControllerClass extends TestCase
         $this->assertInstanceOf("Anax\Response\ResponseUtility", $res);
     }
 
-    public function testNewActionPost() {
+    public function testNewActionPost()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -80,7 +83,8 @@ class PostsControllerClass extends TestCase
         $this->assertInstanceOf("Anax\Response\ResponseUtility", $res);
     }
 
-    public function testNewActionPostNoTags() {
+    public function testNewActionPostNoTags()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -98,7 +102,8 @@ class PostsControllerClass extends TestCase
         $this->assertInstanceOf("Anax\Response\ResponseUtility", $res);
     }
 
-    public function testCommentActionPost() {
+    public function testCommentActionPost()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -114,7 +119,8 @@ class PostsControllerClass extends TestCase
         $this->assertIsString($res);
     }
 
-    public function testCommentVote() {
+    public function testCommentVote()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -134,7 +140,8 @@ class PostsControllerClass extends TestCase
         $this->assertIsString($res);
     }
 
-    public function testPostVote() {
+    public function testPostVote()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -154,7 +161,8 @@ class PostsControllerClass extends TestCase
         $this->assertIsString($res);
     }
 
-    public function testcommentAnswerActionPost() {
+    public function testcommentAnswerActionPost()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -174,7 +182,8 @@ class PostsControllerClass extends TestCase
         $this->assertIsString($res);
     }
 
-    public function testcatchAll() {
+    public function testcatchAll()
+    {
         global $di;
 
         $di = new DIMagic();

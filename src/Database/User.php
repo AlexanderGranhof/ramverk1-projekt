@@ -11,25 +11,29 @@ use PDOException;
 
 class User extends Database
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function all() {
+    public function all()
+    {
         $stmt = $this->db->prepare("SELECT id, username, created, email FROM users");
         $stmt->execute();
 
         return $stmt->fetchAll();
     }
 
-    public function get($id) {
+    public function get($id)
+    {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(["id" => $id]);
 
         return $stmt->fetch();
     }
 
-    public function activity($uid) {
+    public function activity($uid)
+    {
         $stmt = $this->db->prepare("SELECT posts.*, posts.id AS `post_id`, users.*, post_votes.score FROM posts INNER JOIN users on users.id = posts.user_id LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id WHERE posts.user_id = :uid AND posts.deleted = 0");
         $stmt->execute(["uid" => $uid]);
 
@@ -43,7 +47,8 @@ class User extends Database
         return ["comments" => $comments, "posts" => $posts];
     }
 
-    public function score($uid) {
+    public function score($uid)
+    {
         // $stmt = $this->db->prepare("SELECT (SELECT SUM(score) FROM comment_votes WHERE user_id = :uid) + (SELECT SUM(score) FROM post_votes WHERE user_id = :uid2) AS sum_score;");
         $stmt = $this->db->prepare("SELECT (SELECT COALESCE(SUM(score), 0) FROM comment_votes WHERE user_id = :uid1) + (SELECT COALESCE(COUNT(id), 0) FROM posts WHERE user_id = :uid2) + (SELECT COALESCE(COUNT(id), 0) FROM comments WHERE user_id = :uid3) + (SELECT COALESCE(SUM(comment_votes.score), 0) * 2 FROM comments LEFT OUTER JOIN comment_votes ON comment_votes.comment_id = comments.id WHERE comments.answer = 1 AND comments.user_id = :uid4) + (SELECT COALESCE(SUM(score), 0) FROM post_votes WHERE user_id = :uid5) AS sum_score;");
         $stmt->execute(["uid1" => $uid, "uid2" => $uid, "uid3" => $uid, "uid4" => $uid, "uid5" => $uid]);
@@ -53,31 +58,36 @@ class User extends Database
         return intval($res["sum_score"]);
     }
 
-    public function comments($id) {
+    public function comments($id)
+    {
         $stmt = $this->db->prepare("SELECT * FROM comments WHERE user_id = :id");
         $stmt->execute(["id" => $id]);
 
         return $stmt->fetchAll();
     }
 
-    public function getFromName($name) {
+    public function getFromName($name)
+    {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE username = :name LIMIT 1");
         $stmt->execute(["name" => $name]);
 
         return $stmt->fetch();
     }
 
-    public function setBio($uid, $bio) {
+    public function setBio($uid, $bio)
+    {
         $stmt = $this->db->prepare("UPDATE users SET bio = :bio WHERE id = :uid");
         $stmt->execute(["uid" => $uid, "bio" => $bio]);
     }
 
-    public function grantMod($userID) {
+    public function grantMod($userID)
+    {
         $stmt = $this->db->prepare("UPDATE users SET moderator = 1 WHERE id = :uid");
         $stmt->execute(["uid" => $userID]);
     }
 
-    public function register($username, $password, $email) {
+    public function register($username, $password, $email)
+    {
         $password = hash("sha256", $password);
 
         $isAdmin = $username == "admin" ? 1 : 0;
@@ -105,7 +115,8 @@ class User extends Database
         return false;
     }
 
-    public function verify($username, $password) {
+    public function verify($username, $password)
+    {
         $password = hash("sha256", $password);
 
         try {
@@ -120,7 +131,6 @@ class User extends Database
                 "verified" => !!$res,
                 "id" => $id
             ];
-
         } catch (PDOException $e) {
             return [
                 "err" => $e->getMessage(),
@@ -134,7 +144,8 @@ class User extends Database
         ];
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
         $stmt->execute(["id" => $id]);
     }

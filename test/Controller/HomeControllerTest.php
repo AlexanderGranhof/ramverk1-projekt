@@ -22,7 +22,8 @@ class HomeControllerClass extends TestCase
     /**
      * Test the route "index".
      */
-    public function testIndex() {
+    public function testIndex()
+    {
         global $di;
 
         $di = new DIMagic();

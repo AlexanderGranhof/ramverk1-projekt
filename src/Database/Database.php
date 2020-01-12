@@ -1,13 +1,13 @@
 <?php
 
 namespace Algn\Database;
-use \PDO;
 
+use PDO;
 
-class Database 
+class Database
 {
-
-    public function __construct() {
+    public function __construct()
+    {
         $options = [
             PDO::ATTR_EMULATE_PREPARES   => false, // turn off emulation mode for "real" prepared statements
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions

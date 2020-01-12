@@ -11,7 +11,7 @@
 </form>
 
 <div class="tags-container">
-    <?php foreach($tags as $tag): ?>
+    <?php foreach ($tags as $tag) : ?>
         <a class="tag-wrapper" href="posts?tags=<?= $tag ?>">
             <span class="tag"><?= $tag ?></span>
         </a>

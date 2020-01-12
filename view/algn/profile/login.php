@@ -1,33 +1,33 @@
 <?php
 
-    use Algn\Database\User;
+use Algn\Database\User;
 
-    $session = $di->get("session");
+$session = $di->get("session");
 
-    $error = $session->getOnce("error_login");
-    $usernameErr = $session->getOnce("register_error_username");
+$error = $session->getOnce("error_login");
+$usernameErr = $session->getOnce("register_error_username");
 
-    $userid = $session->get("userid");
+$userid = $session->get("userid");
 
-    $user = null;
+$user = null;
 
-    if ($userid) {
-        $userdb = new User();
-        $user = $userdb->get($userid);
+if ($userid) {
+    $userdb = new User();
+    $user = $userdb->get($userid);
 
-        $email = $user["email"];
-        $size = 40;
-        $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "&s=" . $size;
-    }
+    $email = $user["email"];
+    $size = 40;
+    $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "&s=" . $size;
+}
 ?>
 
-<?php if ($error): ?>
+<?php if ($error) : ?>
 <h4 class="pwd-usr-err">Username or password is incorrect</h4>
 <?php endif; ?>
-<?php if ($usernameErr): ?>
+<?php if ($usernameErr) : ?>
 <h4 class="pwd-usr-err">Username already exists</h4>
 <?php endif; ?>
-<?php if (!$userid): ?>
+<?php if (!$userid) : ?>
     <div class="login-container">
         <h1>Login</h1>
         <form action="" method="POST">

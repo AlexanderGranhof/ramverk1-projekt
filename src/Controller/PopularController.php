@@ -7,7 +7,6 @@ use Anax\Commons\ContainerInjectableTrait;
 use Algn\Database\User;
 use Algn\Database\Post;
 
-
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
 // use Anax\Route\Exception\InternalErrorException;
@@ -27,7 +26,8 @@ class PopularController implements ContainerInjectableInterface
     
     
     
-    public function indexAction(): object {
+    public function indexAction(): object
+    {
         $page = $this->di->get("page");
 
         $post = new Post();
@@ -40,12 +40,12 @@ class PopularController implements ContainerInjectableInterface
 
         $users = $user->all();
 
-        foreach($users as &$row) {
+        foreach ($users as &$row) {
             $row["score"] = $user->score($row["id"]);
         }
 
-        usort($users, function($a, $b) {
-            return $b['score'] - $a['score'];
+        usort($users, function ($abc, $bcd) {
+            return $bcd['score'] - $abc['score'];
         });
 
         $topUser = array_shift($users);
@@ -63,7 +63,9 @@ class PopularController implements ContainerInjectableInterface
         return $page->render(["title" => "Popular", "baseTitle" => " | FoodFlow"]);
     }
 
-    public function catchAll(...$args) {
+    public function catchAll(...$args)
+    {
+        $args = $args;
         $page = $this->di->get("page");
 
         $page->add("algn/home/404");

@@ -7,7 +7,6 @@ use Anax\Commons\ContainerInjectableTrait;
 use Algn\Database\User;
 use Algn\Database\Post;
 
-
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
 // use Anax\Route\Exception\InternalErrorException;
@@ -26,7 +25,8 @@ class TagsController implements ContainerInjectableInterface
     use ContainerInjectableTrait;
     
     
-    public function indexAction(): object {
+    public function indexAction(): object
+    {
         $page = $this->di->get("page");
         $req = $this->di->get("request");
         $post = new Post();
@@ -35,14 +35,14 @@ class TagsController implements ContainerInjectableInterface
 
         $searchTags = $body["tags"] ?? "";
 
-        if(strlen($searchTags) > 0) {    
+        if (strlen($searchTags) > 0) {
             $searchTags = explode(",", $searchTags);
 
-            $searchTags = array_filter($searchTags, function($row) {
+            $searchTags = array_filter($searchTags, function ($row) {
                 return strlen($row);
             });
     
-            foreach($searchTags as &$searchTagd) {
+            foreach ($searchTags as &$searchTagd) {
                 $searchTagd = trim(strtolower($searchTagd));
             }
 
@@ -51,9 +51,9 @@ class TagsController implements ContainerInjectableInterface
             
             $finalTags = [];
             
-            foreach($tags as $tag => $score) {
-                foreach($searchTags as $searchTag) {
-                    if (strpos($tag, $searchTag) !== False) {
+            foreach ($tags as $tag => $score) {
+                foreach ($searchTags as $searchTag) {
+                    if (strpos($tag, $searchTag) !== false) {
                         $finalTags[] = $tag;
                     }
                 }
@@ -70,7 +70,7 @@ class TagsController implements ContainerInjectableInterface
 
         $finalTags = [];
 
-        foreach($tags as $tag => $score) {
+        foreach ($tags as $tag => $score) {
             $finalTags[]= $tag;
         }
 
@@ -81,7 +81,9 @@ class TagsController implements ContainerInjectableInterface
         return $page->render(["title" => "Tags", "baseTitle" => " | FoodFlow"]);
     }
 
-    public function catchAll(...$args) {
+    public function catchAll(...$args)
+    {
+        $args = $args;
         $page = $this->di->get("page");
 
         $page->add("algn/home/404");

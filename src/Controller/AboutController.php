@@ -7,7 +7,6 @@ use Anax\Commons\ContainerInjectableTrait;
 use Algn\Database\User;
 use Algn\Database\Post;
 
-
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
 // use Anax\Route\Exception\InternalErrorException;
@@ -26,7 +25,8 @@ class AboutController implements ContainerInjectableInterface
     use ContainerInjectableTrait;
     
     
-    public function indexAction(): object {
+    public function indexAction(): object
+    {
         $page = $this->di->get("page");
 
         $page->add("algn/about/index");
@@ -34,7 +34,9 @@ class AboutController implements ContainerInjectableInterface
         return $page->render(["title" => "About", "baseTitle" => " | FoodFlow"]);
     }
 
-    public function catchAll(...$args) {
+    public function catchAll(...$args)
+    {
+        $args = $args;
         $page = $this->di->get("page");
 
         $page->add("algn/home/404");

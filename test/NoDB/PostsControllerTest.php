@@ -23,7 +23,8 @@ class PostsControllerClassNoDB extends TestCase
      * Test the route "index".
      */
 
-    public function testNewAction() {
+    public function testNewAction()
+    {
         global $di;
 
         $di = new DIMagic();

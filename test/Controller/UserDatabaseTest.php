@@ -14,7 +14,8 @@ use PDOException;
  */
 class UserDatabaseTest extends TestCase
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->user = new User();
@@ -40,14 +41,16 @@ class UserDatabaseTest extends TestCase
         $this->user->delete($result["id"]);
     }
 
-    public function testRegisterFail() {
+    public function testRegisterFail()
+    {
         $result = $this->user->register(null, null, null);
 
         $this->assertIsString($result["err"]);
         $this->assertIsString($result["code"]);
     }
 
-    public function testComments() {
+    public function testComments()
+    {
         $username = "test";
         $password = "test";
         $email = "test@test.com";
@@ -63,7 +66,8 @@ class UserDatabaseTest extends TestCase
         $this->user->delete($user["id"]);
     }
 
-    public function testScore() {
+    public function testScore()
+    {
         $username = "test";
         $password = "test";
         $email = "test@test.com";
@@ -79,7 +83,8 @@ class UserDatabaseTest extends TestCase
         $this->user->delete($user["id"]);
     }
 
-    public function testActivity() {
+    public function testActivity()
+    {
         $username = "test";
         $password = "test";
         $email = "test@test.com";
@@ -96,7 +101,8 @@ class UserDatabaseTest extends TestCase
         $this->user->delete($user["id"]);
     }
 
-    public function testGet() {
+    public function testGet()
+    {
         $username = "test";
         $password = "test";
         $email = "test@test.com";
@@ -114,7 +120,8 @@ class UserDatabaseTest extends TestCase
         $this->user->delete($user["id"]);
     }
 
-    public function testVerify() {
+    public function testVerify()
+    {
         $username = "test";
         $password = "test";
         $email = "test@test.com";

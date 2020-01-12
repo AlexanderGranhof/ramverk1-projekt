@@ -1,51 +1,56 @@
 <?php
+use DateTime;
 
-    $session = $di->get("session");
-    $req = $di->get("request");
+$session = $di->get("session");
+$req = $di->get("request");
 
-    // $posts
+// $posts
 
-    $userid = $session->get("userid");
-    $error = $session->getOnce("error_posts");
+$userid = $session->get("userid");
+$error = $session->getOnce("error_posts");
 
-    $tags = $req->getGet("tags") ?? "";
+$tags = $req->getGet("tags") ?? "";
 
-    $parsedown = new Parsedown();
+$parsedown = new Parsedown();
 
-    function time_elapsed_string_index($datetime, $full = false) {
-        $now = new DateTime;
-        $ago = new DateTime($datetime);
-        $diff = $now->diff($ago);
-    
-        $diff->w = floor($diff->d / 7);
-        $diff->d -= $diff->w * 7;
-    
-        $string = array(
-            'y' => 'year',
-            'm' => 'month',
-            'w' => 'week',
-            'd' => 'day',
-            'h' => 'hour',
-            'i' => 'minute',
-            's' => 'second',
-        );
-        foreach ($string as $k => &$v) {
-            if ($diff->$k) {
-                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-            } else {
-                unset($string[$k]);
-            }
+function time_elapsed_string_index($datetime, $full = false)
+{
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => 'year',
+        'm' => 'month',
+        'w' => 'week',
+        'd' => 'day',
+        'h' => 'hour',
+        'i' => 'minute',
+        's' => 'second',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+        } else {
+            unset($string[$k]);
         }
-    
-        if (!$full) $string = array_slice($string, 0, 1);
-        return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
+
+    if (!$full) {
+        $string = array_slice($string, 0, 1);
+    }
+
+    return $string ? implode(', ', $string) . ' ago' : 'just now';
+}
 ?>
 
 <div class="posts-container">
     <div class="create-filter-container">
         <div>
-            <?php if ($userid): ?>
+            <?php if ($userid) : ?>
                 <a class="create-post" href="./posts/new">new post +</a>
             <?php endif ?>
         </div>
@@ -58,19 +63,19 @@
             <input type="submit" value="Filter">
         </div>
     </div>
-    <?php if ($error): ?>
+    <?php if ($error) : ?>
         <h1>Failed to create post</h1>
     <?php endif; ?>
     
-    <?php if (count($posts) <= 0): ?>
+    <?php if (count($posts) <= 0) : ?>
         <h1 class="no-posts">No posts around here ¯\_(ツ)_/¯</h1>
-    <?php else: ?>
+    <?php else : ?>
     </form>
-        <?php foreach($posts as $post): ?>
+        <?php foreach ($posts as $post) : ?>
             <div class="post">
                 <a href="profile/<?= $post["username"] ?>" class="username"><?= $post["username"] ?><?= $post["moderator"] ? "<img class='mod-badge medium' src='img/mod.png'>" : "" ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_index($post["created"]) ?> </a>
                 <div class="tags">
-                    <?php foreach(explode(",", $post["tags"]) as $tag): ?>
+                    <?php foreach (explode(",", $post["tags"]) as $tag) : ?>
                     <a class="tag-wrapper" href="posts?tags=<?= $tag ?>">
                         <span class="tag"><?= $tag ?></span>
                     </a>

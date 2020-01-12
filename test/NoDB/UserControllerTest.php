@@ -23,7 +23,8 @@ class UserControllerClassNoDB extends TestCase
      * Test the route "index".
      */
 
-    public function testIndexNoUID() {
+    public function testIndexNoUID()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -40,7 +41,8 @@ class UserControllerClassNoDB extends TestCase
         $this->assertInstanceOf("Anax\Response\ResponseUtility", $res);
     }
 
-    public function testRegister() {
+    public function testRegister()
+    {
         global $di;
 
         $di = new DIMagic();

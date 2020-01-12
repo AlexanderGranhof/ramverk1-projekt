@@ -4,9 +4,9 @@
 ?>
 
 
-<?php if(!$userid): ?>
+<?php if (!$userid) : ?>
     <h1>You need to be logged in to create a post</h1>
-    <?php else: ?>
+<?php else : ?>
     <div class="login-container">
     <h1>New post</h1>
         <form id="createPost" name="createPost" action="./new" method="POST">

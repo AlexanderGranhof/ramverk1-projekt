@@ -6,7 +6,6 @@ use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 use Algn\Database\User;
 
-
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
 // use Anax\Route\Exception\InternalErrorException;
@@ -24,7 +23,8 @@ class UserController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
     
-    public function indexAction(): object {
+    public function indexAction(): object
+    {
         $page = $this->di->get("page");
         $session = $this->di->get("session");
         $res = $this->di->get("response");
@@ -52,12 +52,12 @@ class UserController implements ContainerInjectableInterface
         return $page->render(["title" => "Login", "baseTitle" => " | FoodFlow"]);
     }
 
-    public function indexActionPost(): object {
+    public function indexActionPost(): object
+    {
         $req = $this->di->get("request");
         $res = $this->di->get("response");
-        $page = $this->di->get("page");
         $session = $this->di->get("session");
-        $user = new User();        
+        $user = new User();
 
         $body = $req->getPost();
 
@@ -81,7 +81,8 @@ class UserController implements ContainerInjectableInterface
         return $res->redirect("profile");
     }
 
-    public function modActionPost() {
+    public function modActionPost()
+    {
         $req = $this->di->get("request");
         $res = $this->di->get("response");
         $user = new User();
@@ -106,7 +107,8 @@ class UserController implements ContainerInjectableInterface
         return $res->redirect("profile");
     }
 
-    public function registerAction(): object {
+    public function registerAction(): object
+    {
         $page = $this->di->get("page");
 
         $page->add("algn/profile/register");
@@ -114,7 +116,8 @@ class UserController implements ContainerInjectableInterface
         return $page->render(["title" => "Register", "baseTitle" => " | FoodFlow"]);
     }
 
-    public function bioActionPost() {
+    public function bioActionPost()
+    {
         $req = $this->di->get("request");
         $session = $this->di->get("session");
         $user = new User();
@@ -130,7 +133,8 @@ class UserController implements ContainerInjectableInterface
         }
     }
 
-    public function  registerActionPost(): object {
+    public function registerActionPost(): object
+    {
         $req = $this->di->get("request");
         $res = $this->di->get("response");
         $session = $this->di->get("session");
@@ -161,7 +165,8 @@ class UserController implements ContainerInjectableInterface
         return $res->redirect("profile");
     }
 
-    public function catchAll(...$args): object {
+    public function catchAll(...$args): object
+    {
         [$route] = $args;
 
         $page = $this->di->get("page");

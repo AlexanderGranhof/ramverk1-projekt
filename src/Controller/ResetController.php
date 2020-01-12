@@ -6,7 +6,6 @@ use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 use Algn\Database\Database;
 
-
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
 // use Anax\Route\Exception\InternalErrorException;
@@ -25,7 +24,8 @@ class ResetController implements ContainerInjectableInterface
     use ContainerInjectableTrait;
     
     
-    public function indexAction() {
+    public function indexAction()
+    {
         $session = $this->di->get("session");
         $res = $this->di->get("response");
         $db = (new Database())->db;
@@ -37,7 +37,9 @@ class ResetController implements ContainerInjectableInterface
         return $res->redirect("profile");
     }
 
-    public function catchAll(...$args) {
+    public function catchAll(...$args)
+    {
+        $args = $args;
         $page = $this->di->get("page");
 
         $page->add("algn/home/404");

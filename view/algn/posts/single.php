@@ -1,189 +1,198 @@
 <?php
-    $parsedown = new Parsedown();
-    $req = $this->di->get("request");
+use Parsedown;
+use DateTime;
 
-    $temp = $isOwnPost;
-    $temp2 = $loggedIn;
+$parsedown = new Parsedown();
+$req = $this->di->get("request");
 
+$temp = $isOwnPost;
+$temp2 = $loggedIn;
+
+global $userCommentScores;
+global $isOwnPost;
+global $hasAnswer;
+global $loggedIn;
+global $currentUID;
+
+$currentUID = $this->di->get("session")->get("userid");
+
+$isOwnPost = $temp;
+$loggedIn = $temp2;
+
+$userCommentScores = [];
+
+foreach ($userUpvoted as $row) {
+    $userCommentScores[$row["comment_id"]] = $row["score"];
+}
+
+foreach ($comments as $comment) {
+    if ($comment["answer"] == 1) {
+        $hasAnswer = true;
+        break;
+    }
+}
+
+$sorted = $req->getGet("sort");
+
+function time_elapsed_string_single($datetime, $full = false)
+{
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => 'year',
+        'm' => 'month',
+        'w' => 'week',
+        'd' => 'day',
+        'h' => 'hour',
+        'i' => 'minute',
+        's' => 'second',
+    );
+
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) {
+        $string = array_slice($string, 0, 1);
+    }
+
+    return $string ? implode(', ', $string) . ' ago' : 'just now';
+}
+
+function createSingleComment($comment, $isChild = false, $child = "")
+{
     global $userCommentScores;
     global $isOwnPost;
     global $hasAnswer;
     global $loggedIn;
     global $currentUID;
+    // var_dump($comment);
+    // echo "<br><br>";
+    $parsedown = new Parsedown();
 
-    $currentUID = $this->di->get("session")->get("userid");
+    $score = $userCommentScores[$comment["id"]] ?? 0;
 
-    $isOwnPost = $temp;
-    $loggedIn = $temp2;
+    $deleted = $comment["deleted"];
+    $id = $comment["id"];
+    $arrowUp = $score == 1 ? "selected" : "";
+    $arrowDown = $score == -1 ? "selected" : "";
+    $username = $comment["username"];
+    $created = time_elapsed_string_single($comment["created"]) ?? "";
+    $content = $parsedown->text($comment["comment_text"]);
+    $answer = $comment["answer"];
 
-    $userCommentScores = [];
+    $isChild = $isChild ? "child" : "";
+    $answerClass = $answer ? "class='answer'" : "";
 
-    foreach($userUpvoted as $row) {
-        $userCommentScores[$row["comment_id"]] = $row["score"];
-    }
+    $arrowsDisabled = !$loggedIn || $deleted ? "disabled" : "";
 
-    foreach($comments as $comment) {
-        if ($comment["answer"] == 1) {
-            $hasAnswer = true;
-            break;
-        }
-    }
-    
-    $sorted = $req->getGet("sort");
-
-    function time_elapsed_string_single($datetime, $full = false) {
-        $now = new DateTime;
-        $ago = new DateTime($datetime);
-        $diff = $now->diff($ago);
-    
-        $diff->w = floor($diff->d / 7);
-        $diff->d -= $diff->w * 7;
-    
-        $string = array(
-            'y' => 'year',
-            'm' => 'month',
-            'w' => 'week',
-            'd' => 'day',
-            'h' => 'hour',
-            'i' => 'minute',
-            's' => 'second',
-        );
-
-        foreach ($string as $k => &$v) {
-            if ($diff->$k) {
-                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-            } else {
-                unset($string[$k]);
-            }
-        }
-    
-        if (!$full) $string = array_slice($string, 0, 1);
-        return $string ? implode(', ', $string) . ' ago' : 'just now';
-    }
-
-    function createSingleComment($comment, $isChild=false, $child="") {
-        global $userCommentScores;
-        global $isOwnPost;
-        global $hasAnswer;
-        global $loggedIn;
-        global $currentUID;
-        // var_dump($comment);
-        // echo "<br><br>";
-        $parsedown = new Parsedown();
-
-        $score = $userCommentScores[$comment["id"]] ?? 0;
-
-        $deleted = $comment["deleted"];
-        $id = $comment["id"];
-        $arrowUp = $score == 1 ? "selected" : "";
-        $arrowDown = $score == -1 ? "selected" : "";
-        $username = $comment["username"];
-        $created = time_elapsed_string_single($comment["created"]) ?? "";
-        $content = $parsedown->text($comment["comment_text"]);
-        $answer = $comment["answer"];
-
-        $isChild = $isChild ? "child" : "";
-        $answerClass = $answer ? "class='answer'" : "";
-
-        $arrowsDisabled = !$loggedIn || $deleted ? "disabled" : "";
-
-        $modImg = $comment["moderator"] ? "<img class='mod-badge small' src='../img/mod.png'>" : "";
-           
-        return "<div class='comment $isChild'>" .
-            "<div class='vote comment-vote' data-id='$id'>" .
-                "<span class='arrow-up $arrowUp $arrowsDisabled'>▶</span>" .
-                "<span class='arrow-down $arrowDown $arrowsDisabled'>▶</span>" .
+    $modImg = $comment["moderator"] ? "<img class='mod-badge small' src='../img/mod.png'>" : "";
+        
+    return "<div class='comment $isChild'>" .
+        "<div class='vote comment-vote' data-id='$id'>" .
+            "<span class='arrow-up $arrowUp $arrowsDisabled'>▶</span>" .
+            "<span class='arrow-down $arrowDown $arrowsDisabled'>▶</span>" .
+        "</div>" .
+        "<div data-id='$id' $answerClass>" .
+            "<a class='username' href='../profile/$username'>$username$modImg | $score points | $created</a>" .
+            "<div class='comment-text " . ($deleted ? "removed" : "") . "'>" . (!$deleted ? $content : '[REMOVED]') . "</div>" .
+            "<div class='comment-extras'>" .
+                (!$deleted ? "<span data-id='$id' class='reply-button'>reply</span>" : "") .
+                ($isOwnPost && !$hasAnswer ? "<span class='mark-as-answer'>mark as answer</span>" : "") .
+                ($currentUID == $comment["user_id"] && !$deleted ? "<span data-id='$id' class='delete-comment'>delete</span>" : "") .
             "</div>" .
-            "<div data-id='$id' $answerClass>" .
-                "<a class='username' href='../profile/$username'>$username$modImg | $score points | $created</a>" .
-                "<div class='comment-text " . ($deleted ? "removed" : "") . "'>" . (!$deleted ? $content : '[REMOVED]') . "</div>" .
-                "<div class='comment-extras'>" . 
-                    (!$deleted ? "<span data-id='$id' class='reply-button'>reply</span>" : "") .
-                    ($isOwnPost && !$hasAnswer ? "<span class='mark-as-answer'>mark as answer</span>" : "") .
-                    ($currentUID == $comment["user_id"] && !$deleted ? "<span data-id='$id' class='delete-comment'>delete</span>" : "") .
-                "</div>" . 
-            "</div>" .
-            $child .
-        "</div>";
+        "</div>" .
+        $child .
+    "</div>";
+}
+
+// Nothing to see from here and the next 100 lines.
+// Please have mercy on these lines if you read them.
+
+$finished = [];
+
+for ($i = 0; $i < count($comments); $i++) {
+    if (!isset($comments[$i]["comment_reply_id"])) {
+        $finished[] = $comments[$i];
+        continue;
     }
 
-    // Nothing to see from here and the next 100 lines.
-    // Please have mercy on these lines if you read them.
+    for ($j = 0; $j < count($comments); $j++) {
+        if ($comments[$j]["id"] == $comments[$i]["comment_reply_id"]) {
+            $comments[$j]["child"][] = $comments[$i];
+        } else {
+            if (isset($comments[$j]["child"])) {
+                $current = $comments[$j]["child"];
 
-    $finished = [];
-
-    for($i = 0; $i < count($comments); $i++) {
-        if (!isset($comments[$i]["comment_reply_id"])) {
-            $finished[] = $comments[$i];
-            continue;
-        }
-
-        for($j = 0; $j < count($comments); $j++) {
-            if ($comments[$j]["id"] == $comments[$i]["comment_reply_id"]) {
-                $comments[$j]["child"][] = $comments[$i];
-            } else {
-                if (isset($comments[$j]["child"])) {
-                    $current = $comments[$j]["child"];
-    
-                    while ($current) {
-                        for($x = 0; $x < count($comments[$j]["child"]); $x++) {
-                            if ($comments[$j]["child"][$x]["id"] == $comments[$i]["comment_reply_id"]) {
-                                $comments[$j]["child"][$x]["child"][] = $comments[$i]; 
-                            }
+                while ($current) {
+                    for ($x = 0; $x < count($comments[$j]["child"]); $x++) {
+                        if ($comments[$j]["child"][$x]["id"] == $comments[$i]["comment_reply_id"]) {
+                            $comments[$j]["child"][$x]["child"][] = $comments[$i];
                         }
-
-                        if (!isset($current["child"])) {
-                            break;
-                        }
-    
-                        $current = $current["child"];
                     }
-                }
-            }
-        }
 
-        for($j = 0; $j < count($finished); $j++) {
-            if ($finished[$j]["id"] == $comments[$i]["comment_reply_id"]) {
-                $finished[$j]["child"][] = $comments[$i];
-            } else {
-                if (isset($finished[$j]["child"])) {
-                    $current = $finished[$j]["child"];
-    
-                    while ($current) {
-                        for($x = 0; $x < count($finished[$j]["child"]); $x++) {
-                            if ($finished[$j]["child"][$x]["id"] == $comments[$i]["comment_reply_id"]) {
-                                $finished[$j]["child"][$x]["child"][] = $comments[$i]; 
-                            }
-                        }
-
-                        if (!isset($current["child"])) {
-                            break;
-                        }
-    
-                        $current = $current["child"];
+                    if (!isset($current["child"])) {
+                        break;
                     }
+
+                    $current = $current["child"];
                 }
             }
         }
     }
 
+    for ($j = 0; $j < count($finished); $j++) {
+        if ($finished[$j]["id"] == $comments[$i]["comment_reply_id"]) {
+            $finished[$j]["child"][] = $comments[$i];
+        } else {
+            if (isset($finished[$j]["child"])) {
+                $current = $finished[$j]["child"];
 
-    function makeComments($current, $isChild=false, $childHTML="") {
+                while ($current) {
+                    for ($x = 0; $x < count($finished[$j]["child"]); $x++) {
+                        if ($finished[$j]["child"][$x]["id"] == $comments[$i]["comment_reply_id"]) {
+                            $finished[$j]["child"][$x]["child"][] = $comments[$i];
+                        }
+                    }
 
-        if (isset($current["child"])) {
-            foreach($current["child"] as $child) {
-                $childHTML .= makeComments($child, true);
+                    if (!isset($current["child"])) {
+                        break;
+                    }
+
+                    $current = $current["child"];
+                }
             }
         }
+    }
+}
 
-        return createSingleComment($current, $isChild, $childHTML);
+
+function makeComments($current, $isChild = false, $childHTML = "")
+{
+
+    if (isset($current["child"])) {
+        foreach ($current["child"] as $child) {
+            $childHTML .= makeComments($child, true);
+        }
     }
 
-    $commentHTML = "";
+    return createSingleComment($current, $isChild, $childHTML);
+}
 
-    foreach($finished as $comment) {
-        $commentHTML .= makeComments($comment);
-    }
+$commentHTML = "";
+
+foreach ($finished as $comment) {
+    $commentHTML .= makeComments($comment);
+}
 
 
 ?>
@@ -211,7 +220,7 @@
             <a href="../profile/<?= $post["username"] ?>" class="username"><?= $post["username"] ?><?= $postUser["moderator"] ? "<img class='mod-badge medium' src='../img/mod.png'>" : "" ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_single($post["created"]) ?> | <span class="post-rank rank-<?= $postRank ?>">Rank <?= $postRank ?></span></a>
             <h1 class="title"><?= $post["title"] ?></h1>
             <div class="tags">
-                <?php foreach(explode(",", $post["tags"]) as $tag): ?>
+                <?php foreach (explode(",", $post["tags"]) as $tag) : ?>
                 <a class="tag-wrapper" href="../posts?tags=<?= $tag ?>">
                     <span class="tag"><?= $tag ?></span>
                 </a>

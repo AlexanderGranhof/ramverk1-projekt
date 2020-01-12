@@ -22,7 +22,8 @@ class UserControllerClass extends TestCase
     /**
      * Test the route "index".
      */
-    public function testIndex() {
+    public function testIndex()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -41,7 +42,8 @@ class UserControllerClass extends TestCase
         $this->assertInstanceOf("Anax\Response\ResponseUtility", $res);
     }
 
-    public function testIndexNoUID() {
+    public function testIndexNoUID()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -58,7 +60,8 @@ class UserControllerClass extends TestCase
         $this->assertInstanceOf("Anax\Response\ResponseUtility", $res);
     }
 
-    public function testIndexActionPost() {
+    public function testIndexActionPost()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -75,7 +78,8 @@ class UserControllerClass extends TestCase
         $this->assertInstanceOf("Anax\Response\ResponseUtility", $res);
     }
 
-    public function testRegisterActionPost() {
+    public function testRegisterActionPost()
+    {
         global $di;
 
         $di = new DIMagic();
@@ -92,7 +96,8 @@ class UserControllerClass extends TestCase
         $this->assertInstanceOf("Anax\Response\ResponseUtility", $res);
     }
 
-    public function testCatchAll() {
+    public function testCatchAll()
+    {
         global $di;
 
         $di = new DIMagic();

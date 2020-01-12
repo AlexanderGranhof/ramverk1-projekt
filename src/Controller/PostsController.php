@@ -7,7 +7,6 @@ use Anax\Commons\ContainerInjectableTrait;
 use Algn\Database\User;
 use Algn\Database\Post;
 
-
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
 // use Anax\Route\Exception\InternalErrorException;
@@ -27,7 +26,8 @@ class PostsController implements ContainerInjectableInterface
     
     
     
-    public function indexAction(): object {
+    public function indexAction(): object
+    {
         $page = $this->di->get("page");
         $req = $this->di->get("request");
         $post = new Post();
@@ -48,7 +48,7 @@ class PostsController implements ContainerInjectableInterface
                     $postTags = $allPosts[$i]["tags"] ?? "";
                     $remove = true;
                     
-                    foreach($tagsArr as $currTag) {
+                    foreach ($tagsArr as $currTag) {
                         if (strlen($currTag) > 0) {
                             if (strpos($postTags, $currTag) !== false) {
                                 $remove = false;
@@ -60,7 +60,6 @@ class PostsController implements ContainerInjectableInterface
                         array_splice($allPosts, $i, 1);
                     }
                 }
-
             }
         }
 
@@ -72,7 +71,8 @@ class PostsController implements ContainerInjectableInterface
         return $page->render(["title" => "Posts", "baseTitle" => " | FoodFlow"]);
     }
 
-    public function newAction(): object {
+    public function newAction(): object
+    {
 
         // $session = $this->di->get("session");
 
@@ -83,7 +83,8 @@ class PostsController implements ContainerInjectableInterface
         return $page->render(["title" => "New post", "baseTitle" => " | FoodFlow"]);
     }
 
-    public function newActionPost(): object {
+    public function newActionPost(): object
+    {
         $req = $this->di->get("request");
         $res = $this->di->get("response");
         $session = $this->di->get("session");
@@ -142,7 +143,8 @@ class PostsController implements ContainerInjectableInterface
         return $res->redirect("posts/$id");
     }
 
-    public function indexActionDelete() {
+    public function indexActionDelete()
+    {
         $req = $this->di->get("request");
         $post = new Post();
 
@@ -155,7 +157,8 @@ class PostsController implements ContainerInjectableInterface
         }
     }
 
-    public function commentActionPost(): string {
+    public function commentActionPost(): string
+    {
         $req = $this->di->get("request");
         $session = $this->di->get("session");
         $post = new Post();
@@ -175,7 +178,8 @@ class PostsController implements ContainerInjectableInterface
         return $result ? "true" : "false";
     }
 
-    public function commentActionDelete() {
+    public function commentActionDelete()
+    {
         $req = $this->di->get("request");
         $post = new Post();
 
@@ -188,7 +192,8 @@ class PostsController implements ContainerInjectableInterface
         }
     }
 
-    public function commentVoteActionPost(): string {
+    public function commentVoteActionPost(): string
+    {
         $req = $this->di->get("request");
         $session = $this->di->get("session");
 
@@ -222,7 +227,8 @@ class PostsController implements ContainerInjectableInterface
         return $result ? "true" : "false";
     }
 
-    public function postVoteActionPost(): string {
+    public function postVoteActionPost(): string
+    {
         $req = $this->di->get("request");
         $session = $this->di->get("session");
 
@@ -258,7 +264,8 @@ class PostsController implements ContainerInjectableInterface
         return $result ? "true" : "false";
     }
 
-    public function commentAnswerActionPost(): string {
+    public function commentAnswerActionPost(): string
+    {
         $req = $this->di->get("request");
         $session = $this->di->get("session");
 
@@ -276,7 +283,8 @@ class PostsController implements ContainerInjectableInterface
         return "true";
     }
 
-    public function catchAll($route) {
+    public function catchAll($route)
+    {
         $post = new Post();
         $user = new User();
         $res = $this->di->get("response");
