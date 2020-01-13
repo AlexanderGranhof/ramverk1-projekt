@@ -50,7 +50,7 @@ class User extends Database
     public function score($uid)
     {
         // $stmt = $this->db->prepare("SELECT (SELECT SUM(score) FROM comment_votes WHERE user_id = :uid) + (SELECT SUM(score) FROM post_votes WHERE user_id = :uid2) AS sum_score;");
-        $stmt = $this->db->prepare("SELECT (SELECT COALESCE(SUM(score), 0) FROM comment_votes WHERE user_id = :uid1) + (SELECT COALESCE(COUNT(id), 0) FROM posts WHERE user_id = :uid2) + (SELECT COALESCE(COUNT(id), 0) FROM comments WHERE user_id = :uid3) + (SELECT COALESCE(SUM(comment_votes.score), 0) * 2 FROM comments LEFT OUTER JOIN comment_votes ON comment_votes.comment_id = comments.id WHERE comments.answer = 1 AND comments.user_id = :uid4) + (SELECT COALESCE(SUM(score), 0) FROM post_votes WHERE user_id = :uid5) AS sum_score;");
+        $stmt = $this->db->prepare("SELECT (SELECT COALESCE(SUM(score), 0) FROM comment_votes INNER JOIN comments ON comments.id = comment_votes.comment_id WHERE comment_votes.user_id = :uid1 AND comments.deleted = 0) + (SELECT COALESCE(COUNT(id), 0) FROM posts WHERE user_id = :uid2 AND posts.deleted = 0) + (SELECT COALESCE(COUNT(id), 0) FROM comments WHERE user_id = :uid3 AND comments.deleted = 0) + (SELECT COALESCE(SUM(comment_votes.score), 0) * 2 FROM comments LEFT OUTER JOIN comment_votes ON comment_votes.comment_id = comments.id WHERE comments.answer = 1 AND comments.user_id = :uid4 AND comments.deleted = 0) + (SELECT COALESCE(SUM(score), 0) FROM post_votes INNER JOIN posts ON posts.id = post_votes.post_id WHERE post_votes.user_id = :uid5 AND posts.deleted = 0) AS sum_score;");
         $stmt->execute(["uid1" => $uid, "uid2" => $uid, "uid3" => $uid, "uid4" => $uid, "uid5" => $uid]);
 
         $res = $stmt->fetch();
