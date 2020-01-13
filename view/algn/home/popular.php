@@ -70,13 +70,15 @@ $postTags = explode(",", $post["tags"])
         <div>
             <h1 class="most-popular-title">Most popular User</h1>
             <? if($user): ?>
-                <div class="user-description">
-                    <img src="<?= $grav_url ?>" alt="">
-                    <div class="username-container">
-                        <h1 class="username"><?= $user["username"] ?></h1>
-                        <span class="light">User score: <?= $score ?? 0 ?></span>
+                <a href="profile/<?= $user["username"] ?>">
+                    <div class="user-description">
+                        <img src="<?= $grav_url ?>" alt="">
+                        <div class="username-container">
+                            <h1 class="username"><?= $user["username"] ?></h1>
+                            <span class="light">User score: <?= $score ?? 0 ?></span>
+                        </div>
                     </div>
-                </div>
+                </a>
         <?php endif; ?>
         </div>
         <div>
