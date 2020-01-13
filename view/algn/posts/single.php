@@ -25,7 +25,17 @@ foreach ($userUpvoted as $row) {
     $userCommentScores[$row["comment_id"]] = $row["score"];
 }
 
+$commentCount = 0;
+
 foreach ($comments as $comment) {
+    $commentCount += $comment["deleted"] ? 0 : 1;
+}
+
+foreach ($comments as $comment) {
+    if ($comment["deleted"] == 0) {
+        $commentCount++;
+    }
+
     if ($comment["answer"] == 1) {
         $hasAnswer = true;
         break;
@@ -96,6 +106,10 @@ function createSingleComment($comment, $isChild = false, $child = "")
     $arrowsDisabled = !$loggedIn || $deleted ? "disabled" : "";
 
     $modImg = $comment["moderator"] ? "<img class='mod-badge small' src='../img/mod.png'>" : "";
+
+    if ($deleted && strlen($child) <= 0) {
+        return "";
+    }
         
     return "<div class='comment $isChild'>" .
         "<div class='vote comment-vote' data-id='$id'>" .
@@ -238,11 +252,13 @@ foreach ($finished as $comment) {
 
 <div class="comments-container">
     <div class="write-comment-container">
-        <p class="comment-count"><?= count($comments) ?> <?= "comment" . (count($comments) > 1 ? "s" : "") ?></p>
+    <?php if ($loggedIn) : ?>
+        <p class="comment-count"><?= $commentCount ?> <?= "comment" . ($commentCount > 1 ? "s" : "") ?></p>
         <textarea id="comment" placeholder="What are your thoughts?" name="comment"></textarea>
         <div class="extras">
             <button id="writeComment" class="commentButton">comment</button>
         </div>
+    <?php endif; ?>
     </div>
     
     <div class="comments">
@@ -280,7 +296,7 @@ foreach ($finished as $comment) {
         }
     }
 
-    deletePostBtn.addEventListener("click", handleDeletePost)
+    deletePostBtn && deletePostBtn.addEventListener("click", handleDeletePost)
     
 
     const deleteBtns = document.querySelectorAll(".delete-comment");
