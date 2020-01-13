@@ -39,7 +39,7 @@ class User extends Database
 
         $posts = $stmt->fetchAll();
 
-        $stmt = $this->db->prepare("SELECT comments.*, posts.title AS `post_title`, comment_votes.score AS `comment_score`, posts.id AS `post_id`, post_votes.score AS `post_score`, users.username AS `post_username`, users.id AS `post_user_id`, posts.created AS `post_created` FROM comments INNER JOIN posts ON posts.id = comments.post_id LEFT OUTER JOIN comment_votes ON comment_id = comments.id LEFT OUTER JOIN post_votes ON posts.id = post_votes.post_id INNER JOIN users ON posts.user_id = users.id WHERE comments.user_id = :uid");
+        $stmt = $this->db->prepare("SELECT comments.*, posts.title AS `post_title`, comment_votes.score AS `comment_score`, posts.id AS `post_id`, post_votes.score AS `post_score`, users.username AS `post_username`, users.id AS `post_user_id`, posts.created AS `post_created` FROM comments INNER JOIN posts ON posts.id = comments.post_id LEFT OUTER JOIN comment_votes ON comment_id = comments.id LEFT OUTER JOIN post_votes ON posts.id = post_votes.post_id INNER JOIN users ON posts.user_id = users.id WHERE comments.user_id = :uid AND comments.deleted = 0");
         $stmt->execute(["uid" => $uid]);
 
         $comments = $stmt->fetchAll();
