@@ -50,6 +50,11 @@ class PostDatabaseTest extends TestCase
         $this->assertIsArray($top);
         $this->assertIsArray($all);
         $this->assertEquals(count($all) >= 1, true);
+        $this->assertEquals(is_null($rank), false);
+        $this->assertEquals(is_null($scre), false);
+        $this->assertEquals(is_null($comment), false);
+        $this->assertEquals(is_null($topc), false);
+        $this->assertEquals(is_null($owner), false);
         $this->assertEquals($result["username"], $username);
         $this->assertEquals($result["email"], $email);
         $this->assertEquals($result["password"], hash("sha256", $password));
