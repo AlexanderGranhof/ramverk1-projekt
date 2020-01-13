@@ -8,7 +8,7 @@ $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) .
 
 $parsedown = new Parsedown();
 
-function time_elapsed_string_home($datetime, $full = false)
+function time_elapsed_string_popular2($datetime, $full = false)
 {
     $now = new DateTime;
     $ago = new DateTime($datetime);
@@ -49,7 +49,7 @@ $postTags = explode(",", $post["tags"])
         <h1 class="most-popular-title">Most popular post</h1>
         <?php if ($post) : ?>
             <div class="post">
-                <a href="profile/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_home($post["created"]) ?></a>
+                <a href="profile/<?= $post["username"] ?>" class="username"><?= $post["username"] ?> | <?= $post["score"] ?? 0 ?> points | <?= time_elapsed_string_popular2($post["created"]) ?></a>
                 <a href="posts/<?= $post["id"] ?>">
                     <h1 class="title"><?= $post["title"] ?></h1>
                     <div class="tags">

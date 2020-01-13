@@ -72,6 +72,7 @@ class UserControllerClass extends TestCase
         $controller->setDI($di);
 
         $res = $controller->indexActionPost();
+        $res = $controller->modActionPost();
 
         $this->assertIsObject($res);
         $this->assertInstanceOf("Anax\Response\Response", $res);

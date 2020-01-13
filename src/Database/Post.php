@@ -20,6 +20,12 @@ class Post extends Database
         return $stmt->fetchAll();
     }
 
+    public function delete($id)
+    {
+        $stmt = $this->db->prepare("DELETE FROM posts WHERE id = :id");
+        $stmt->execute(["id" => $id]);
+    }
+
     public function rank($pid)
     {
         $stmt = $this->db->prepare("SELECT COUNT(id) AS `rank` FROM (SELECT posts.id AS `id`, COALESCE(post_votes.score, 0) AS `score` FROM posts LEFT OUTER JOIN post_votes ON post_votes.post_id = posts.id WHERE posts.deleted = 0 ORDER BY score DESC, id ASC ) AS result WHERE id <= :pid");
@@ -186,6 +192,12 @@ class Post extends Database
         } catch (PDOException $e) {
             var_dump($e->getMessage());
         }
+    }
+
+    public function deleteComment($id)
+    {
+        $stmt = $this->db->prepare("DELETE FROM comments WHERE id = :id");
+        $stmt->execute(["id" => $id]);
     }
 
     public function isOwner($uid, $pid)

@@ -197,6 +197,10 @@ class PostsControllerClass extends TestCase
         $di->request->setPost("id", "1");
 
 
+        $res = $controller->indexActionDelete();
+        $res = $controller->newActionPost();
+        $res = $controller->postVoteActionPost();
+        $res = $controller->commentActionDelete();
         $res = $controller->catchAll("1");
 
 

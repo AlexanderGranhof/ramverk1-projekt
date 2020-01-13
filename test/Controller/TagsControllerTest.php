@@ -5,13 +5,13 @@ namespace Anax\Controller;
 use Anax\DI\DIFactoryConfig;
 use Anax\DI\DIMagic;
 use PHPUnit\Framework\TestCase;
-use Algn\Controller\HomeController;
+use Algn\Controller\TagsController;
 use Algn\Database\Post;
 
 /**
  * Test the SampleController.
  */
-class HomeControllerClass extends TestCase
+class TagsControllerClass extends TestCase
 {
     // public function __construct() {
     //     parent::__construct();
@@ -30,7 +30,9 @@ class HomeControllerClass extends TestCase
         $di->loadServices(ANAX_INSTALL_PATH . "/config/di");
         $di->get("cache")->setPath(ANAX_INSTALL_PATH . "/test/cache");
 
-        $controller = new HomeController();
+        $di->request->setGet("tags", "hola");
+
+        $controller = new TagsController();
         $controller->setDI($di);
 
         $res = $controller->indexAction();

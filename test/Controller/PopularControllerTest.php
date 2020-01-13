@@ -5,20 +5,14 @@ namespace Anax\Controller;
 use Anax\DI\DIFactoryConfig;
 use Anax\DI\DIMagic;
 use PHPUnit\Framework\TestCase;
-use Algn\Controller\HomeController;
+use Algn\Controller\PopularController;
 use Algn\Database\Post;
 
 /**
  * Test the SampleController.
  */
-class HomeControllerClass extends TestCase
+class PopularControllerTest extends TestCase
 {
-    // public function __construct() {
-    //     parent::__construct();
-
-    //     $this->user = new User();
-    //     $this->post = new Post();
-    // }
     /**
      * Test the route "index".
      */
@@ -30,10 +24,9 @@ class HomeControllerClass extends TestCase
         $di->loadServices(ANAX_INSTALL_PATH . "/config/di");
         $di->get("cache")->setPath(ANAX_INSTALL_PATH . "/test/cache");
 
-        $controller = new HomeController();
+        $controller = new PopularController();
         $controller->setDI($di);
 
-        $res = $controller->indexAction();
         $res = $controller->catchAll();
 
         $this->assertIsObject($res);
