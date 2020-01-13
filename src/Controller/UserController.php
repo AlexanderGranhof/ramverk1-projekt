@@ -178,7 +178,7 @@ class UserController implements ContainerInjectableInterface
         $user = $userdb->getFromName($route);
         $comments = $userdb->comments($route);
         $activity = $userdb->activity($user["id"]);
-        $score = $userdb->score($route);
+        $score = $userdb->score($user["id"]);
 
         $loggedInUser = $userdb->get($userid);
 
