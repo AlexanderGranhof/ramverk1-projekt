@@ -492,6 +492,15 @@ form#createPost input[type=submit] {
 .comments-container .comments .comment .comment-text {
   margin: 5px 0 5px 0;
 }
+.comments-container .comments .comment .comment-text a {
+  color: cornflowerblue;
+  text-decoration: underline;
+}
+.comments-container .comments .comment .comment-text img {
+  max-width: 250px;
+  max-height: 250px;
+  object-fit: cover;
+}
 div.vote {
   opacity: 0.75;
   width: fit-content;
@@ -520,7 +529,7 @@ div.vote .arrow-up {
   user-select: none;
   cursor: pointer;
   display: inline-block;
-  transform: rotate(-90deg) translateY(-2.6px);
+  transform: rotate(-90deg) translateY(-0.5px);
   width: 15px;
   height: 15px;
   place-self: end;
