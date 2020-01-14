@@ -2,7 +2,13 @@
 [![CircleCI](https://circleci.com/gh/AlexanderGranhof/ramverk1-projekt.svg?style=svg)](https://circleci.com/gh/AlexanderGranhof/ramverk1-projekt)
 
 # ramverk1-projekt
-This repo is a project in a course at Blekinge Tekniska Högskola.
+This repo is a project in a course at Blekinge Tekniska Högskola. The project is a custom reddit/stackOverflow clone.
+
+# Requirements
+1. `php`
+2. `webserver (apache)`
+3. `node & npm`
+4. `composer`
 
 # Installation
 1. `clone the repo`
